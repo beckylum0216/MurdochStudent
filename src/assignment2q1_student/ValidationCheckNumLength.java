@@ -25,6 +25,6 @@ public class ValidationCheckNumLength implements ValidStudent{
             throw new BadDetailsException("The student number is invalid");
         }
         
-        return theFlag;
+        return !theFlag;
     }
 }

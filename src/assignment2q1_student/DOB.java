@@ -13,45 +13,45 @@ import java.util.Date;
  * @author rebecca
  */
 public class DOB {
-    private int day;
-    private int month;
-    private int year;
+    private String day;
+    private String month;
+    private String year;
     
     DOB()
     {
-        this.day = 0;
-        this.month = 0;
-        this.year = 0;
+        this.day = null;
+        this.month = null;
+        this.year = null;
     }
     
-    DOB(int inputDay, int inputMonth, int inputYear)
+    DOB(String inputDay, String inputMonth, String inputYear)
     {
         this.day = inputDay;
         this.month = inputMonth;
         this.year = inputYear;
     }
 
-    public int getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(String day) {
         this.day = day;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
     
@@ -95,17 +95,17 @@ public class DOB {
     public boolean isEmpty()
     {
         boolean theFlag = false;
-        if(this.getDay() == 0)
+        if(this.getDay().isEmpty())
         {
             theFlag = true;
         }
         
-        if(this.getMonth() == 0)
+        if(this.getMonth().isEmpty())
         {
             theFlag = true;
         }
         
-        if(this.getYear() == 0)
+        if(this.getYear().isEmpty())
         {
             theFlag = true;
         }

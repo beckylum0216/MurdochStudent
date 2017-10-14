@@ -20,7 +20,7 @@ public class ValidationCheckLastName implements ValidStudent{
         boolean theFlag = true;
         String theRegx = "[a-zA-Z]";
         Pattern thePattern = Pattern.compile(theRegx,Pattern.CASE_INSENSITIVE);
-        Matcher theMatcher = thePattern.matcher(inputStudent.getFirstName());
+        Matcher theMatcher = thePattern.matcher(inputStudent.getLastName());
         
         if(!theMatcher.find())
         {
@@ -29,6 +29,6 @@ public class ValidationCheckLastName implements ValidStudent{
                     + "[A to z or a to z]");
         }
         
-        return theFlag;
+        return !theFlag;
     }
 }

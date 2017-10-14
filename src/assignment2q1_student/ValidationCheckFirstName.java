@@ -29,6 +29,6 @@ public class ValidationCheckFirstName implements ValidStudent{
                     + "[A to z or a to z]");
         }
         
-        return theFlag;
+        return !theFlag;
     }
 }

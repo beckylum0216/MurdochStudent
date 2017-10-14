@@ -27,7 +27,7 @@ public class ValidationCheckDateOfBirth implements ValidStudent{
             
         }
        
-        return theFlag;
+        return !theFlag;
         
     }
 }

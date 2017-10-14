@@ -19,6 +19,10 @@ public class Student extends Person {
     
     Student()
     {
+        this.setTitle(null);
+        this.setFirstName(null);
+        this.setLastName(null);
+        this.setStudentDOB(new DOB());
         this.studentID = 0;
         this.assignmentOne = 0;
         this.assignmentTwo = 0;

@@ -134,8 +134,8 @@ public class Assignment2Q1_Student {
             String anyLast = initLast[theNum.nextInt(6)];
             theStudent[g].setLastName(anyLast);
             theStudent[g].setStudentID(theNum.nextInt(99999999));
-            theStudent[g].setStudentDOB(new DOB(theNum.nextInt(30), 
-                    theNum.nextInt(12), theNum.nextInt(100)));
+            theStudent[g].setStudentDOB(new DOB(Integer.toString(theNum.nextInt(30)), 
+                    Integer.toString(theNum.nextInt(12)), Integer.toString(theNum.nextInt(100))));
             theStudent[g].setAssignmentOne(theNum.nextInt(100));
             theStudent[g].setAssignmentTwo(theNum.nextInt(100));
             for (int i = 0; i < theStudent[g].getPracWork().length; i++)
@@ -157,9 +157,9 @@ public class Assignment2Q1_Student {
         String zFirstName = null;
         String zLastName = null;
         long zStudentNum  = 0;
-        int zDay = 0;
-        int zMonth = 0;
-        int zYear = 0;
+        String zDay = null;
+        String zMonth = null;
+        String zYear = null;
         double zAssignmentOne = 0.00;
         double zAssignmentTwo = 0.00;
         double[] zPrac = new double[10];
@@ -197,7 +197,7 @@ public class Assignment2Q1_Student {
             }
         }while(theFlag);
         
-               
+        theFlag = true;    
         do
         {
             try
@@ -213,7 +213,8 @@ public class Assignment2Q1_Student {
                 System.out.println(e);
             }
         }while (theFlag);
-                
+        
+        theFlag = true;
         do
         {
             try
@@ -231,6 +232,7 @@ public class Assignment2Q1_Student {
             }
         }while(theFlag);
         
+        theFlag = true;
         do
         {
             try
@@ -247,40 +249,48 @@ public class Assignment2Q1_Student {
             {
                 System.out.println(e);
             }
+            catch(NumberFormatException en)
+            {
+                theFlag = true;
+                System.out.println(en);
+                        
+            }
             catch(Exception ex)
             {
                 System.out.println(ex);
             }
             
         }while(theFlag);
-                
+        
+        theFlag = true;
         do
         {
             try
             {
                 System.out.println("Please enter the date of birth");
                 System.out.println("Please enter the day:");
-                String tempDay = theKB.nextLine();
-                zDay = Integer.parseInt(tempDay);
+                zDay = theKB.nextLine();
                 System.out.println("Please enter the month:");
-                String tempMonth = theKB.nextLine();
-                zMonth = Integer.parseInt(tempMonth);
+                zMonth = theKB.nextLine();
                 System.out.println("Please enter the year");
-                String tempYear = theKB.nextLine();
-                zYear = Integer.parseInt(tempYear);
+                zYear = theKB.nextLine();
                 DOB tempDate = new DOB(zDay, zMonth, zYear);
                 newStudent.setStudentDOB(tempDate);
-                testStudent[8].isValid(newStudent);
-                testStudent[9].isValid(newStudent);
+                theFlag = testStudent[8].isValid(newStudent);
+                theFlag = testStudent[9].isValid(newStudent);
             }
             catch(BadDetailsException e)
             {
-                
+                System.out.println(e);
             }
             
         }while(theFlag);
                 
-                
+        theFlag = true;
+        do
+        {
+            try
+            {
                 System.out.println("Please enter the mark for assignment 1");
                 zAssignmentOne = theKB.nextDouble();
                 newStudent.setAssignmentOne(zAssignmentOne);
@@ -289,7 +299,7 @@ public class Assignment2Q1_Student {
                 newStudent.setAssignmentTwo(zAssignmentTwo);
                 for(int i = 0; i < zPrac.length; i++)
                 {
-                    System.out.println("Please enter the mark for practical ["+i+"]");
+                    System.out.println("Please enter the mark for practical ["+(i+1)+"]");
                     zPrac[i] = theKB.nextDouble();
                 }
                 newStudent.setPracWork(zPrac);
@@ -297,16 +307,11 @@ public class Assignment2Q1_Student {
                 zExam = theKB.nextDouble();
                 theKB.nextLine();
                 newStudent.setExamMark(zExam);
-                testStudent[10].isValid(newStudent);
-                
-                for(int i = 0; i < testStudent.length; i++)
-                {
-                    testStudent[i].isValid(newStudent);
-                }
-
+                theFlag  = testStudent[10].isValid(newStudent);
             }
             catch(InputMismatchException exp)
             {
+                theFlag = true;
                 System.out.println(exp);
             }
             catch(BadDetailsException ek)
@@ -337,7 +342,7 @@ public class Assignment2Q1_Student {
         int theIndex = 0;
         for(int i = 0; i < inputArr.length; i++)
         {
-            if(inputArr[i] == null && i < (inputArr.length-1))
+            if(i < (inputArr.length) && !inputArr[i].getFirstName().isEmpty())
             {
                 theIndex = i;
             }

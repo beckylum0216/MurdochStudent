@@ -19,13 +19,25 @@ public class ValidationCheckMarkRange implements ValidStudent{
     {
         boolean theFlag = true;
         
-        if(inputStudent.getAssignmentOne() > 100 && inputStudent.getAssignmentOne() < 0)
+        if(inputStudent.getAssignmentOne() > 100 )
         {
             theFlag = false;
             throw new BadDetailsException("The assignment 1 mark is invalid");
         }
         
-        if(inputStudent.getAssignmentTwo() > 100 && inputStudent.getAssignmentTwo() < 0)
+        if(inputStudent.getAssignmentOne() < 0)
+        {
+            theFlag = false;
+            throw new BadDetailsException("The assignment 1 mark is invalid");
+        }
+        
+        if(inputStudent.getAssignmentTwo() > 100 )
+        {
+            theFlag = false;
+            throw new BadDetailsException("The assignment 2 mark is invalid");
+        }
+        
+        if(inputStudent.getAssignmentTwo() < 0)
         {
             theFlag = false;
             throw new BadDetailsException("The assignment 2 mark is invalid");
@@ -33,7 +45,7 @@ public class ValidationCheckMarkRange implements ValidStudent{
         
         for(int i = 0; i < inputStudent.getPracWork().length; i++)
         {
-            if(inputStudent.getPracWork(i) > 100 && inputStudent.getPracWork(i) < 0)
+            if(inputStudent.getPracWork(i) > 100)
             {
                 theFlag = false;
                 throw new BadDetailsException("The practical mark ["+i+"] is invalid");
@@ -41,12 +53,29 @@ public class ValidationCheckMarkRange implements ValidStudent{
         }
         
         
-        if(inputStudent.getExamMark() > 100 && inputStudent.getExamMark()< 0  )
+        for(int i = 0; i < inputStudent.getPracWork().length; i++)
+        {
+            if( inputStudent.getPracWork(i) < 0)
+            {
+                theFlag = false;
+                throw new BadDetailsException("The practical mark ["+i+"] is invalid");
+            } 
+        }
+         
+        if(inputStudent.getExamMark() > 100)
         {
             theFlag = false;
             throw new BadDetailsException("The exam mark is invalid");
         }
         
-        return theFlag;
+        if( inputStudent.getExamMark()< 0  )
+        {
+            theFlag = false;
+            throw new BadDetailsException("The exam mark is invalid");
+        }
+        
+        
+        
+        return !theFlag;
     }
 }
