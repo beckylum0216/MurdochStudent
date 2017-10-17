@@ -15,16 +15,17 @@ import java.util.regex.Pattern;
 public class ValidationCheckEmptyDOB implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)throws BadDetailsException
+    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
     {
         boolean theFlag = true;
         if(inputStudent.getStudentDOB().isEmpty())
         {
             theFlag = false;
-            throw new BadDetailsException("You didn't enter anything."
-                    + "Please enter something");
+            System.out.println("You didn't enter anything. Please enter something.");
+            //throw new BadDetailsException("You didn't enter anything."
+            //        + "Please enter something");
         }
        
-        return theFlag;
+        return !theFlag;
     }
 }

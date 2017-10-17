@@ -6,6 +6,8 @@
 package assignment2q1_student;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
 /**
@@ -68,18 +70,23 @@ public class DOB {
     
     public boolean isValidDate()
     {
-        boolean theFlag = false;
+        boolean theFlag;
         StringBuilder theDate = new StringBuilder();
         
         theDate.append(this.day);
         theDate.append(this.month);
         theDate.append(this.year);
         
-        SimpleDateFormat theFormat = new SimpleDateFormat("ddmmyyyy");
-        theFormat.setLenient(false);
+        SimpleDateFormat theFormat = new SimpleDateFormat("ddMMyyyy");
+        
+        
         try
         {
+            theFormat.setLenient(false);
+            
             theFormat.parse(theDate.toString());
+            TemporalAccessor ta = DateTimeFormatter.ofPattern("ddMMyyyy")
+                    .parse(theDate.toString());
             theFlag = true;
             
         }

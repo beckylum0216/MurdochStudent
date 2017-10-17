@@ -6,13 +6,30 @@
 package assignment2q1_student;
 
 /**
- *
- * @author rebecca
+ * @title Student Record System
+ * @filename Assignment2Q1_Student.java
+ * @purpose This class is the client class that contains the logic of the 
+ * program
+ * @assumptions the inputs will only take in strings and doubles and do error 
+ * checking on the input
+ * @author Rebecca Lim
  */
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ *
+ * @author rebecca
+ */
 public class Assignment2Q1_Student {
 
     /**
@@ -22,11 +39,15 @@ public class Assignment2Q1_Student {
     static String[] initTitle = {"Mr", "Mrs", "Ms"};
     static String[] initFirst = {"Pippen", "Beverly", "John", "Robin", "Angelyn", "Kevin"};
     static String[] initLast = {"Pink", "Yellow", "Cyan", "Red","Blue", "Green"};
-    static final int THE_NUMBER = 12;
+    static final int THE_NUMBER = 1024;
+    static int theIndex = -1;
     static Student[] theStudent = new Student[THE_NUMBER];
     static Scanner theKB = new Scanner(System.in);
-    
-    
+        
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         // TODO code application logic here
         
@@ -43,13 +64,13 @@ public class Assignment2Q1_Student {
             switch (theChoice)
             {
                 case 0:
-                    initStudent();
+                    readStudent();
                     break; 
                 case 1:
                     theFlag = exitProg();
                     break;
                 case 2:
-                    addEdit();
+                    addRecord();
                     break;
                 case 3:
                     printStudents();
@@ -89,6 +110,9 @@ public class Assignment2Q1_Student {
         System.out.println("Exiting...");
     }
     
+    /**
+     * Method that has the assignment's student's details.
+     */
     public static void studentInfo()
     {
         System.out.println("Name:               Rebecca Lim");
@@ -99,60 +123,152 @@ public class Assignment2Q1_Student {
         System.out.println();
     }
     
+    /**
+     * This method shows the menu options available to the user.
+     */
     public static void printMenu()
     {
         System.out.println("Menu");
         System.out.println("==============================================");
         System.out.println("1: Quit.");
-        System.out.println("2: Press 1 to add student information.");
-        System.out.println("3: Press 2 to display all student information.");
-        System.out.println("4: Press 3 to calculate and display the average for "
+        System.out.println("2: Press 2 to add student information.");
+        System.out.println("3: Press 3 to display all student information.");
+        System.out.println("4: Press 4 to calculate and display the average for "
                 + "the class.");
-        System.out.println("5: Press 4 to display students above or below "
+        System.out.println("5: Press 5 to display students above or below "
                 + "the average mark.");
-        System.out.println("6: Press 5 to show the distribution of grades.");
-        System.out.println("7: Press 6 to search for student by student number.");
-        System.out.println("8: Press 7 to search for student by name.");
-        System.out.println("9: Press 8 to list first and second highest marks.");
-        System.out.println("10: Press 9 to sort the class by name.");
-        System.out.println("11: Press 10 to sort the class by student number.");
+        System.out.println("6: Press 6 to show the distribution of grades.");
+        System.out.println("7: Press 7 to search for student by student ID.");
+        System.out.println("8: Press 8 to search for student by name.");
+        System.out.println("9: Press 9 to list first and second highest marks.");
+        System.out.println("10: Press 10 to sort the class by name.");
+        System.out.println("11: Press 11 to sort the class by student number.");
         
     }
     
-    public static void initStudent()
+    /**
+     * 
+     */
+    public static void readStudent()
     {
-        Random theNum = new Random();
-        double[] tempArr = new double[10];
+        Path csvFile = Paths.get("src/assignment2q1_student/StudentData.csv");
+        String theRecord = "";
+        String csvSplit = ",";
+        boolean theFlag = true;
         
-        for(int g = 0; g < THE_NUMBER; g++  )
+        ValidStudent[] testStudent = new ValidStudent[12];
+        testStudent[0] = new ValidationCheckEmptyTitle();
+        testStudent[1] = new ValidationCheckTitle();
+        testStudent[2] = new ValidationCheckEmptyFirstName();
+        testStudent[3] = new ValidationCheckFirstName();
+        testStudent[4] = new ValidationCheckEmptyLastName();
+        testStudent[5] = new ValidationCheckLastName();
+        testStudent[6] = new ValidationCheckEmptyID();
+        testStudent[7] = new ValidationCheckNumLength();
+        testStudent[8] = new ValidationCheckEmptyDOB();
+        testStudent[9] = new ValidationCheckDateOfBirth();
+        testStudent[10] = new ValidationCheckMarkRange();
+        testStudent[11] = new ValidationCheckNumericID();
+        
+        
+        do
         {
-            theStudent[g] = new Student(); 
-            String anyTitle = initTitle[theNum.nextInt(3)];
-            theStudent[g].setTitle(anyTitle);
-            String anyFirst = initFirst[theNum.nextInt(6)];
-            theStudent[g].setFirstName(anyFirst); 
-            String anyLast = initLast[theNum.nextInt(6)];
-            theStudent[g].setLastName(anyLast);
-            theStudent[g].setStudentID(theNum.nextInt(99999999));
-            theStudent[g].setStudentDOB(new DOB(Integer.toString(theNum.nextInt(30)), 
-                    Integer.toString(theNum.nextInt(12)), Integer.toString(theNum.nextInt(100))));
-            theStudent[g].setAssignmentOne(theNum.nextInt(100));
-            theStudent[g].setAssignmentTwo(theNum.nextInt(100));
-            for (int i = 0; i < theStudent[g].getPracWork().length; i++)
+            Student newStudent;
+            try (BufferedReader theBR = Files.newBufferedReader(csvFile, 
+                    StandardCharsets.UTF_8))
             {
-                tempArr[i] = theNum.nextInt(100);
+                theBR.readLine();
+                while ((theRecord = theBR.readLine()) != null)
+                {
+                    try
+                    {
+                        String[] theAttribute = theRecord.split(csvSplit);
+                        newStudent = createStudentObj(theAttribute);
+                        boolean theCheck = false;
+                        for(int i = 0; i < testStudent.length; i++)
+                        {
+
+                            theCheck  = testStudent[i].isValid(newStudent);
+                            System.out.println("TheCheck:"+i+" "+theCheck);
+
+                            if(theCheck)
+                            {
+                                break;
+                            }
+
+                        }
+
+
+                        if(!theCheck)
+                        {
+                            System.out.println("The record is valid");
+                            push(newStudent);
+
+                        }
+                        else
+                        {
+                            System.out.println("The record is invalid");
+                        }
+
+                        System.out.println("===Mark===");
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        System.out.println(e);
+                        
+                    }
+                    
+                }
+                theFlag = false;
             }
             
-            theStudent[g].setPracWork(tempArr);
-            
-            theStudent[g].setExamMark(theNum.nextInt(100));
-        }
+            catch(FileNotFoundException e)
+            {
+                System.out.println(e);
+            }
+            catch(IOException e)
+            {
+                System.out.println(e);
+            } 
+        }while(theFlag);
+        
+        
+        
         
     }
     
-    public static void addEdit()
+    private static Student createStudentObj(String[] inputArr)
     {
-        boolean theFlag = true;
+        String zTitle = inputArr[0];
+        String zFirstName = inputArr[1];
+        String zLastName = inputArr[2];
+        String zDay = inputArr[3];
+        String zMonth = inputArr[4];
+        String zYear = inputArr[5];
+        DOB zBirthDay = new DOB(zDay, zMonth, zYear);
+        long zStudentNum  = Long.parseLong(inputArr[6]);
+        double zAssignmentOne = Double.parseDouble(inputArr[7]);
+        double zAssignmentTwo = Double.parseDouble(inputArr[8]);
+        double[] zPrac = new double[10];
+        
+        for(int i = 0; i < zPrac.length; i++)
+        {
+            zPrac[i] = Double.parseDouble(inputArr[i+8]);
+        }
+        double zExam = Double.parseDouble(inputArr[19]);
+        
+        return new Student(zTitle, zFirstName, zLastName, zBirthDay
+                , zStudentNum, zAssignmentOne, zAssignmentTwo, zPrac, zExam);
+    }
+    
+    /**
+     * This method is the interface that validates and records the data added to
+     * the array.
+     */
+    public static void addRecord()
+    {
+        boolean theFlag0 = true;
+        boolean theFlag1 = true; 
         String zTitle = null;
         String zFirstName = null;
         String zLastName = null;
@@ -166,7 +282,6 @@ public class Assignment2Q1_Student {
         double zExam = 0.00;
         
         Student newStudent  = new Student();
-        
         
         ValidStudent[] testStudent = new ValidStudent[11];
         testStudent[0] = new ValidationCheckEmptyTitle();
@@ -188,16 +303,22 @@ public class Assignment2Q1_Student {
                 System.out.println("Please enter title.");
                 zTitle = theKB.nextLine();
                 newStudent.setTitle(zTitle);
-                theFlag = testStudent[0].isValid(newStudent);
-                theFlag = testStudent[1].isValid(newStudent);
+                theFlag0 = testStudent[0].isValid(newStudent);
+                theFlag1 = testStudent[1].isValid(newStudent);
             }
-            catch(BadDetailsException e)
+            /*catch(BadDetailsException e)
+            {
+                System.out.println(e);
+            }*/
+            catch(Exception e)
             {
                 System.out.println(e);
             }
-        }while(theFlag);
+        }while(theFlag0 || theFlag1);
         
-        theFlag = true;    
+        theFlag0 = true;
+        theFlag1 = true;
+        
         do
         {
             try
@@ -205,16 +326,21 @@ public class Assignment2Q1_Student {
                 System.out.println("Please enter firstname.");
                 zFirstName = theKB.nextLine();
                 newStudent.setFirstName(zFirstName);
-                theFlag = testStudent[2].isValid(newStudent);
-                theFlag = testStudent[3].isValid(newStudent);
+                theFlag0 = testStudent[2].isValid(newStudent);
+                theFlag1 = testStudent[3].isValid(newStudent);
             }
-            catch(BadDetailsException e)
+            /*catch(BadDetailsException e)
+            {
+                System.out.println(e);
+            }*/
+            catch(Exception e)
             {
                 System.out.println(e);
             }
-        }while (theFlag);
+        }while (theFlag0 || theFlag1);
         
-        theFlag = true;
+        theFlag0 = true;
+        theFlag1 = true;
         do
         {
             try
@@ -223,16 +349,22 @@ public class Assignment2Q1_Student {
                 System.out.println("Please enter the surname");
                 zLastName  = theKB.nextLine();
                 newStudent.setLastName(zLastName);
-                theFlag = testStudent[4].isValid(newStudent);
-                theFlag = testStudent[5].isValid(newStudent);
+                theFlag0 = testStudent[4].isValid(newStudent);
+                theFlag1 = testStudent[5].isValid(newStudent);
             }
-            catch(BadDetailsException e)
+            /*catch(BadDetailsException e)
+            {
+                System.out.println(e);
+            }*/
+            catch(Exception e)
             {
                 System.out.println(e);
             }
-        }while(theFlag);
+            
+        }while(theFlag0 || theFlag1);
         
-        theFlag = true;
+        theFlag0 = true;
+        theFlag1 = true;
         do
         {
             try
@@ -242,16 +374,16 @@ public class Assignment2Q1_Student {
                 String tempStudentNum  = theKB.nextLine();
                 zStudentNum  = Long.parseLong(tempStudentNum);
                 newStudent.setStudentID(zStudentNum);
-                theFlag = testStudent[6].isValid(newStudent);
-                theFlag = testStudent[7].isValid(newStudent);
+                theFlag0 = testStudent[6].isValid(newStudent);
+                theFlag1 = testStudent[7].isValid(newStudent);
             }
-            catch(BadDetailsException e)
+            /*catch(BadDetailsException e)
             {
                 System.out.println(e);
-            }
+            }*/
             catch(NumberFormatException en)
             {
-                theFlag = true;
+                theFlag0 = true;
                 System.out.println(en);
                         
             }
@@ -260,9 +392,10 @@ public class Assignment2Q1_Student {
                 System.out.println(ex);
             }
             
-        }while(theFlag);
+        }while(theFlag0 || theFlag1);
         
-        theFlag = true;
+        theFlag0 = true;
+        theFlag1 = true;
         do
         {
             try
@@ -276,17 +409,21 @@ public class Assignment2Q1_Student {
                 zYear = theKB.nextLine();
                 DOB tempDate = new DOB(zDay, zMonth, zYear);
                 newStudent.setStudentDOB(tempDate);
-                theFlag = testStudent[8].isValid(newStudent);
-                theFlag = testStudent[9].isValid(newStudent);
+                theFlag0 = testStudent[8].isValid(newStudent);
+                theFlag1 = testStudent[9].isValid(newStudent);
             }
-            catch(BadDetailsException e)
+            /*catch(BadDetailsException e)
+            {
+                System.out.println(e);
+            }*/
+            catch(Exception e)
             {
                 System.out.println(e);
             }
             
-        }while(theFlag);
+        }while(theFlag0 || theFlag1);
                 
-        theFlag = true;
+        theFlag0 = true;
         do
         {
             try
@@ -299,7 +436,8 @@ public class Assignment2Q1_Student {
                 newStudent.setAssignmentTwo(zAssignmentTwo);
                 for(int i = 0; i < zPrac.length; i++)
                 {
-                    System.out.println("Please enter the mark for practical ["+(i+1)+"]");
+                    System.out.println("Please enter the mark for practical "
+                            + "["+(i+1)+"]");
                     zPrac[i] = theKB.nextDouble();
                 }
                 newStudent.setPracWork(zPrac);
@@ -307,60 +445,71 @@ public class Assignment2Q1_Student {
                 zExam = theKB.nextDouble();
                 theKB.nextLine();
                 newStudent.setExamMark(zExam);
-                theFlag  = testStudent[10].isValid(newStudent);
+                theFlag0  = testStudent[10].isValid(newStudent);
             }
             catch(InputMismatchException exp)
             {
-                theFlag = true;
+                theFlag0 = true;
                 System.out.println(exp);
             }
-            catch(BadDetailsException ek)
+            /*catch(BadDetailsException ek)
             {
                 System.out.println(ek);
-            }
+            }*/
             catch(Exception e)
             {
                 System.out.println(e);
             }
             
-        }while(theFlag); 
+        }while(theFlag0); 
         
-        addElement(theStudent, newStudent);
-       
+        push(newStudent);       
     }
     
-    private static void addElement(Student[] inputArr, Student inputData)
+    private static void push(Student inputData)
     {
-        
-        
-        int i = findLogicalSize(inputArr);
-        theStudent[i] = inputData;
-    }
-    
-    private static int findLogicalSize(Student[] inputArr)
-    {
-        int theIndex = 0;
-        for(int i = 0; i < inputArr.length; i++)
+        if(theIndex < theStudent.length - 1)
         {
-            if(i < (inputArr.length) && !inputArr[i].getFirstName().isEmpty())
-            {
-                theIndex = i;
-            }
-            else
-            {
-                System.out.println("The array is full");
-                break;
-                        
-            }
+            theIndex++;
+            theStudent[theIndex] = inputData;
+            System.out.println("The record is saved.");
         }
-        
-        return theIndex;
-        
+        else
+        {
+            System.out.println("The array is full!");
+        }
     }
     
+    private static void pop()
+    {
+        if(theIndex >= 0)
+        {
+            theIndex--;
+            System.out.println("The record is deleted.");
+        }
+        else
+        {
+            System.out.println("The array is empty!");
+        }
+    }
+    
+    public boolean isEmpty() 
+    {
+        return (theIndex == -1);
+    }
+    
+    public boolean isFull() 
+    {
+        return (theIndex == theStudent.length - 1);
+    }
+    
+    
+    /**
+     *
+     */
     public static void printStudents()
     {
-        for(int g = 0; g < theStudent.length; g++)
+        for(int g = 0; g < theIndex+1; g++)
         {
             printStudent(g);
         }
@@ -372,20 +521,21 @@ public class Assignment2Q1_Student {
         System.out.println("Title: " + theStudent[studentIndex].getTitle());
         System.out.println("First Name: " + theStudent[studentIndex].getFirstName());
         System.out.println("Last Name: " + theStudent[studentIndex].getLastName());
-        System.out.println("Title: " + theStudent[studentIndex].getStudentID());
+        System.out.println("Student ID: " + theStudent[studentIndex].getStudentID());
         System.out.println("Date of Birth: " 
                 + theStudent[studentIndex].getStudentDOB().getDay()+"/"
                 +theStudent[studentIndex].getStudentDOB().getMonth()+ "/"
                 + theStudent[studentIndex].getStudentDOB().getYear());
         System.out.println("Mark: " + theStudent[studentIndex].weightedAverage());
-        System.out.println("Title: " 
+        System.out.println("Weighted Average: " 
                 + theStudent[studentIndex].printFinalMark(theStudent[studentIndex]
                         .weightedAverage()));
         System.out.println();
     }
     
-    
-    
+    /**
+     *
+     */
     public static void printMarks()
     {
         double[] tempArr = new double[10]; 
@@ -403,27 +553,37 @@ public class Assignment2Q1_Student {
         }
     }
     
+    /**
+     *
+     */
     public static void printMean()
     {
         System.out.println("The class mean is: " + geoMean());
         System.out.println();
     }
     
+    /**
+     *
+     * @return
+     */
     public static double geoMean()
     {   
         double geoTotal = 1;
         double theMean = 0;
         
-        for (int i= 0; i < theStudent.length; i++)
+        for (int i= 0; i < theIndex+1; i++)
         {
             geoTotal = geoTotal * theStudent[i].weightedAverage();
         }
         
-        theMean = Math.pow(geoTotal, 1.0/theStudent.length);
+        theMean = Math.pow(geoTotal, 1.0/(theIndex+1));
         
         return theMean;
     }
     
+    /**
+     *
+     */
     public static void printPassFail()
     {
         System.out.println("The number passed: "+ passNum());
@@ -432,10 +592,14 @@ public class Assignment2Q1_Student {
         System.out.println();
     }
     
+    /**
+     *
+     * @return
+     */
     public static int passNum()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() >= geoMean())
             {
@@ -445,10 +609,14 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int failNum()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() < geoMean())
             {
@@ -458,6 +626,9 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     */
     public static void printDistribution()
     {
         System.out.println("The number HD: "+ filterHD());
@@ -471,10 +642,14 @@ public class Assignment2Q1_Student {
         System.out.println("The number N: "+ filterN());
     }
     
+    /**
+     *
+     * @return
+     */
     public static int filterHD()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() > 80)
             {
@@ -484,10 +659,14 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int filterD()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() > 70)
             {
@@ -497,10 +676,14 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int filterC()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() > 60)
             {
@@ -510,10 +693,14 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int filterP()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() >= 50)
             {
@@ -523,10 +710,14 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     * @return
+     */
     public static int filterN()
     {
         int counter = 0;
-        for(int i = 0; i < theStudent.length; i++)
+        for(int i = 0; i < theIndex+1; i++)
         {
             if(theStudent[i].weightedAverage() < 50)
             {
@@ -536,6 +727,9 @@ public class Assignment2Q1_Student {
         return counter;
     }
     
+    /**
+     *
+     */
     public static void searchStudentID()
     {
         String theInput;
@@ -580,6 +774,9 @@ public class Assignment2Q1_Student {
         }
     }
     
+    /**
+     *
+     */
     public static void searchStudentName()
     {
         String inputFirst;
@@ -590,7 +787,7 @@ public class Assignment2Q1_Student {
         
         boolean theFlag = true; 
         
-        sSort(theStudent, theStudent.length);
+        sSort(theStudent, theIndex+1);
         do
         {
             System.out.println("Please enter a student name to start searching:");
@@ -627,6 +824,11 @@ public class Assignment2Q1_Student {
         }
     }
     
+    /**
+     *
+     * @param inputString
+     * @return
+     */
     public static boolean isLong(String inputString)  
     {  
         try  
@@ -640,10 +842,16 @@ public class Assignment2Q1_Student {
         return true;  
     }
     
+    /**
+     * This method is a binary search. 
+     * @param inputArr
+     * @param inputKey
+     * @return Student
+     */
     public static int bSearch(Student[] inputArr, long inputKey)
     {
         int firstElement = 0;
-        int lastElement = inputArr.length - 1;
+        int lastElement = (theIndex+1) - 1;
         int midElement;
         
         while(firstElement <= lastElement)
@@ -665,10 +873,16 @@ public class Assignment2Q1_Student {
         return -1;
     }
     
+    /**
+     *
+     * @param inputArr
+     * @param inputKey
+     * @return
+     */
     public static int bSearch(Student[] inputArr, String inputKey)
     {
         int firstElement = 0;
-        int lastElement = inputArr.length - 1;
+        int lastElement = (theIndex+1) - 1;
         int midElement;
         
         while(firstElement <= lastElement)
@@ -694,6 +908,11 @@ public class Assignment2Q1_Student {
         return -1;
     }
     
+    /**
+     *
+     * @param inputArr
+     * @param inputLength
+     */
     public static void sSort(Student[] inputArr, int inputLength)
     {
         for (int i = 0; i < inputLength - 1; ++i)
@@ -717,6 +936,11 @@ public class Assignment2Q1_Student {
         }
     }
     
+    /**
+     *
+     * @param inputArr
+     * @param inputLength
+     */
     public static void iSort(Student[] inputArr, int inputLength)
     {
         Student temp  = new Student();
@@ -735,6 +959,11 @@ public class Assignment2Q1_Student {
         }
     }
     
+    /**
+     *
+     * @param inputArr
+     * @param inputLength
+     */
     public static void findFirstSecond(Student[] inputArr, int inputLength )
     {
         //Student numSmallest = inputArr[0];
@@ -784,6 +1013,10 @@ public class Assignment2Q1_Student {
         System.out.println();
     }
     
+    /**
+     *
+     * @return
+     */
     public static boolean exitProg()
     {
         Scanner theKB = new Scanner(System.in);

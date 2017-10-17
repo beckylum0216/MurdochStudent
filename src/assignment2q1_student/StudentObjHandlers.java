@@ -9,9 +9,14 @@ package assignment2q1_student;
  *
  * @author rebecca
  */
-public interface ValidStudent {
+public class StudentObjHandlers {
+    Student newStudent;
     
-    public boolean isValid(Student studentData) /*throws BadDetailsException*/;
+    public StudentObjHandlers(Student inputStudent)
+    {
+        this.newStudent = inputStudent;
+    }
     
     
+            
 }

@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ValidationCheckTitle implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)throws BadDetailsException
+    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
     {
         boolean theFlag = true;
         String theRegx = "[a-zA-Z]";
@@ -25,15 +25,17 @@ public class ValidationCheckTitle implements ValidStudent{
         if(!theMatcher.find())
         {
             theFlag = false;
-            throw new BadDetailsException("Please enter a title that contains "
-                    + "[A to z or a to z]");
+            System.out.println("Please enter a title that contains [A-Z;a-z]");
+            //throw new BadDetailsException("Please enter a title that contains "
+            //        + "[A to z or a to z]");
         }
         
         if(!inputStudent.isValidTitle())
         {
             theFlag = false;
-            throw new BadDetailsException("Please enter a title that contains "
-                    + "[Mr/Mrs/Ms]");
+            System.out.println("Please enter a title that contains [Mr/Mrs/Ms]");
+            //throw new BadDetailsException("Please enter a title that contains "
+            //        + "[Mr/Mrs/Ms]");
         }
         
         return !theFlag;
