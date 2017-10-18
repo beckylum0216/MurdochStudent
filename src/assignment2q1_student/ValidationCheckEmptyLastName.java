@@ -23,7 +23,7 @@ public class ValidationCheckEmptyLastName implements ValidStudent{
         {
             theFlag = false;
             System.out.println("You didn't enter anything. Please enter something.");
-            throw new BadDetailsException("You didn't enter anything."
+            throw new BadDetailsException("You didn't enter anything. "
                     + "Please enter something");
         }
             

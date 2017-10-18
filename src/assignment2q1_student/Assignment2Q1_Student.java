@@ -95,7 +95,7 @@ public class Assignment2Q1_Student {
                     printStudents();
                     break;
                 case 11:
-                    iSort(theStudent, theStudent.length);
+                    iSort(theStudent, theIndex+1);
                     printStudents();
                     break;
                 default:
@@ -209,11 +209,13 @@ public class Assignment2Q1_Student {
                     catch(NumberFormatException e)
                     {
                         System.out.println(e);
+                        System.out.println("===Mark===");
                         
                     }
                     catch(BadDetailsException e)
                     {
                         System.out.println(e);
+                        System.out.println("===Mark===");
                     }
                     
                 }
