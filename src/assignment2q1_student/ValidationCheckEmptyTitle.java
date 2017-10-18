@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ValidationCheckEmptyTitle implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
+    public boolean isValid(Student inputStudent) throws BadDetailsException
     {
         boolean theFlag = true;
         
@@ -23,8 +23,8 @@ public class ValidationCheckEmptyTitle implements ValidStudent{
         {
             theFlag = false;
             System.out.println("You didn't enter anything. Please enter something.");
-            //throw new BadDetailsException("You didn't enter anything."
-            //        + "Please enter something");
+            throw new BadDetailsException("You didn't enter anything."
+                    + "Please enter something");
         }
             
         return !theFlag;

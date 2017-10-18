@@ -6,8 +6,12 @@
 package assignment2q1_student;
 
 /**
- *
- * @author rebecca
+ * @title Student Record System
+ * @filename DOB.java
+ * @purpose This class is the object class that contains the person
+ * object. Contains all the associated validation methods 
+ * @assumptions 
+ * @author Rebecca Lim
  */
 public class Person {
     private String title;
@@ -51,7 +55,8 @@ public class Person {
     {
         boolean theFlag = false;
         
-        if((this.title.compareTo("Mr") == 0) || (this.title.compareTo("Mrs") == 0) 
+        if((this.title.compareTo("Mr") == 0) 
+                || (this.title.compareTo("Mrs") == 0) 
                 || (this.title.compareTo("Ms")== 0))
         {
             theFlag = true;

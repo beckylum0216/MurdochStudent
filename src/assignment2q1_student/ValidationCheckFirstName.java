@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ValidationCheckFirstName implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
+    public boolean isValid(Student inputStudent) throws BadDetailsException
     {
         boolean theFlag = true;
         String theRegx = "^[a-zA-Z]*$";
@@ -27,8 +27,8 @@ public class ValidationCheckFirstName implements ValidStudent{
             theFlag = false;
             System.out.println("Please enter a name that contains "
                     + "[A to z or a to z]");
-            //throw new BadDetailsException("Please enter a name that contains "
-            //        + "[A to z or a to z]");
+            throw new BadDetailsException("Please enter a name that contains "
+                    + "[A to z or a to z]");
         }
         
         return !theFlag;

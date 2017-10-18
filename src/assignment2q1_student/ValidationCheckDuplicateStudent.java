@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
  * 
  * @author rebecca
  */
-public class ValidationCheckDateOfBirth implements ValidStudent{
+public class ValidationCheckDuplicateStudent implements ValidStudent{
     
     /**
-     * This method checks if the date of birth of the student is valid.
+     * This method checks if the date of birth of 
      * @param inputStudent
      * @return theFlag
      * @throws BadDetailsException 
@@ -25,17 +25,21 @@ public class ValidationCheckDateOfBirth implements ValidStudent{
     public boolean isValid(Student inputStudent) throws BadDetailsException
     {
         
-        boolean theFlag = true;
+        boolean theFlag = false;
         
-        if(!inputStudent.getStudentDOB().isValidDate())
+        for(int i = 0; i < Assignment2Q1_Student.theIndex+1; i++)
         {
-            theFlag = false;
-            System.out.println("The date of birth is invalid");
-            throw new BadDetailsException("The date of birth is invalid");
+            Student tempStudent = Assignment2Q1_Student.theStudent[i];
             
+            if(tempStudent.isEqual(inputStudent))
+            {
+                theFlag = true;
+                System.out.println("The student exists already!");
+                throw new BadDetailsException("The student exists already");
+            }
         }
-       
-        return !theFlag;
+        
+        return theFlag;
         
     }
 }

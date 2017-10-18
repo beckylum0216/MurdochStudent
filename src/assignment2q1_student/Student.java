@@ -14,25 +14,29 @@ public class Student extends Person {
     private long studentID;
     private double assignmentOne;
     private double assignmentTwo;
-    private double[] pracWork = new double[10];
+    private double pracWork;
     private double examMark;
+    private double overallMark;
+    private String theGrade;
     
-    Student()
+    public Student()
     {
         this.setTitle(null);
         this.setFirstName(null);
         this.setLastName(null);
         this.setStudentDOB(new DOB());
-        this.studentID = 0;
-        this.assignmentOne = 0;
-        this.assignmentTwo = 0;
-        initPrac();
-        this.examMark = 0;  
+        this.studentID = -1;
+        this.assignmentOne = -1;
+        this.assignmentTwo = -1;
+        this.pracWork = -1;
+        this.examMark = -1;
+        this.overallMark = -1;
+        this.theGrade = null;
     }
     
-    Student(String inputTitle, String inputFirstName, String inputLastName, 
+    public Student(String inputTitle, String inputFirstName, String inputLastName, 
             DOB inputDOB, long inputID, double inputAssignmentOne, 
-            double inputAssignmentTwo, double[] inputPrac, double inputExam)
+            double inputAssignmentTwo, double inputPrac, double inputExam)
     {
         this.setTitle(inputTitle);
         this.setFirstName(inputFirstName);
@@ -43,31 +47,21 @@ public class Student extends Person {
         this.setAssignmentTwo(inputAssignmentTwo);
         this.setPracWork(inputPrac);
         this.setExamMark(inputExam);
+        this.setOverallMark(weightedAverage());
+        this.setTheGrade(printFinalMark(this.getOverallMark()));
         
-    }
-    
-    private void initPrac()
-    {
-        for(int i = 0; i < pracWork.length; i+=1)
-        {
-            this.pracWork[i] = 0;
-        }
     }
     
     public double weightedAverage()
     {
-        double totPracMark = 0;
+
         double weightedPracWork = 0;
         double weightedAssignmentOne = 0; 
         double weightedAssignmentTwo = 0; 
         double weightedExam = 0;
         double finalMark = 0;
-        for (int i = 0; i < this.pracWork.length; i++ )
-        {
-            totPracMark = totPracMark + this.pracWork[i];
-        }
         
-        weightedPracWork = totPracMark * 0.01;
+        weightedPracWork = this.pracWork;
         weightedAssignmentOne = 0.2 * this.assignmentOne;
         weightedAssignmentTwo = 0.2 * this.assignmentTwo;
         weightedExam = 0.5 * this.examMark;
@@ -109,10 +103,10 @@ public class Student extends Person {
     public boolean isEqual(Student inputStudent)
     {
         boolean theFlag = false;
-        if((this.getFirstName().compareTo(inputStudent.getFirstName())== 0) &&
-                (this.getLastName().compareTo(inputStudent.getLastName())== 0) &&
-                    (this.getStudentDOB().isEqual(inputStudent.getStudentDOB())) &&
-                        (this.studentID == inputStudent.studentID))
+        if((this.getFirstName().equalsIgnoreCase(inputStudent.getFirstName()))
+                &&(this.getLastName().equalsIgnoreCase(inputStudent.getLastName())) 
+                  &&(this.getStudentDOB().isEqual(inputStudent.getStudentDOB()))
+                        &&(this.getStudentID() == inputStudent.getStudentID()))
         {
             theFlag = true;
         }
@@ -120,6 +114,17 @@ public class Student extends Person {
     }
     
     
+    public boolean isIDZero()
+    {
+        boolean theFlag = false;
+        
+        if(this.getStudentID() == -1)
+        {
+            theFlag = true;
+        }
+        
+        return theFlag;    
+    }
     
     public long getStudentID() {
         return studentID;
@@ -142,25 +147,17 @@ public class Student extends Person {
     }
 
     public void setAssignmentTwo(double assignmentTwo) {
+        
         this.assignmentTwo = assignmentTwo;
     }
     
-    public double[] getPracWork()
+    public double getPracWork()
     {
         return pracWork;
     }
 
-    public double getPracWork(int inputIndex ) {
-        return pracWork[inputIndex];
-    }
-
-    public void setPracWork(double[] pracWork) {
+    public void setPracWork(double pracWork) {
         this.pracWork = pracWork;
-    }
-    
-    public void setPracWork(int inputIndex, double inputMark)
-    {
-        this.pracWork[inputIndex] = inputMark;
     }
 
     public double getExamMark() {
@@ -170,17 +167,21 @@ public class Student extends Person {
     public void setExamMark(double examMark) {
         this.examMark = examMark;
     }
-    
-    public boolean isIDZero()
-    {
-        boolean theFlag = false;
-        
-        if(this.getStudentID() == 0)
-        {
-            theFlag = true;
-        }
-        
-        return theFlag;    
+
+    public double getOverallMark() {
+        return overallMark;
+    }
+
+    public void setOverallMark(double overallMark) {
+        this.overallMark = overallMark;
+    }
+
+    public String getTheGrade() {
+        return theGrade;
+    }
+
+    public void setTheGrade(String theGrade) {
+        this.theGrade = theGrade;
     }
     
     

@@ -8,8 +8,8 @@ package assignment2q1_student;
 /**
  * @title Student Record System
  * @filename Assignment2Q1_Student.java
- * @purpose This class is the client class that contains the logic of the 
- * program
+ * @purpose This class is the exception class that would validate user input
+ *
  * @assumptions the inputs will only take in strings and doubles and do error 
  * checking on the input
  * @author Rebecca Lim
@@ -17,7 +17,7 @@ package assignment2q1_student;
 public class BadDetailsException extends Exception {
     
     /**
-     * 
+     * Constructor to the exception
      */
     public BadDetailsException()
     {
@@ -25,7 +25,7 @@ public class BadDetailsException extends Exception {
     }
     
     /**
-     *
+     * Constructor that accepts the error message for the exception
      * @param badMessage
      */
     public BadDetailsException(String badMessage)

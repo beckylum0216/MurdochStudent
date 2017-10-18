@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ValidationCheckNumLength implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
+    public boolean isValid(Student inputStudent) throws BadDetailsException
     {
         
         boolean theFlag = true;
@@ -23,7 +23,7 @@ public class ValidationCheckNumLength implements ValidStudent{
         {
             theFlag = false;
             System.out.println("The student number is invalid");
-            //throw new BadDetailsException("The student number is invalid");
+            throw new BadDetailsException("The student number is invalid");
         }
         
         return !theFlag;

@@ -15,18 +15,20 @@ import java.util.regex.Pattern;
 public class ValidationCheckNumericID implements ValidStudent{
     
     @Override
-    public boolean isValid(Student inputStudent)/*throws BadDetailsException*/
+    public boolean isValid(Student inputStudent) throws BadDetailsException
     {
-       
+        boolean theFlag = false;
         try  
         {  
             long theID = Long.parseLong(Long.toString(inputStudent.getStudentID()));  
         }  
         catch(NumberFormatException nfe)  
         {  
-            return !false;  
+            theFlag = true;
+            throw new BadDetailsException("The student number is invalid");
+              
         }
         
-        return !true; 
+        return theFlag; 
     }
 }

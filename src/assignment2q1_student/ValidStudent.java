@@ -11,7 +11,7 @@ package assignment2q1_student;
  */
 public interface ValidStudent {
     
-    public boolean isValid(Student studentData) /*throws BadDetailsException*/;
+    public boolean isValid(Student studentData) throws BadDetailsException;
     
     
 }
