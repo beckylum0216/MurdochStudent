@@ -9,11 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author rebecca
- */
+* This class validates the firstname field. It checks if the field is 
+* populated
+* @throws BadDetailsException 
+*/
 public class ValidationCheckEmptyFirstName implements ValidStudent{
     
+    /**
+     *
+     * @param inputStudent
+     * @return
+     * @throws BadDetailsException
+     */
     @Override
     public boolean isValid(Student inputStudent)throws BadDetailsException
     {

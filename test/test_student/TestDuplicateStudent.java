@@ -6,6 +6,7 @@
 package test_student; 
 
 import assignment2q1_student.Assignment2Q1_Student;
+import assignment2q1_student.BadDetailsException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,18 +39,8 @@ public class TestDuplicateStudent {
     @Before
     public void setUp() {
         Student newStudent;
-        DOB theDate = new DOB("06", "06", "1966");
-        double[] thePrac = new double[10];
-        thePrac[0] = 55;
-        thePrac[1] = 55;
-        thePrac[2] = 55;
-        thePrac[3] = 55;
-        thePrac[4] = 55;
-        thePrac[5] = 55;
-        thePrac[6] = 55;
-        thePrac[7] = 55;
-        thePrac[8] = 55;
-        thePrac[9] = 55;
+        DOB theDate = new DOB(06, 06, 1966);
+        double thePrac = 55;
         newStudent = new Student("Ms", "Grace","Park", theDate, 12345678, 55,55,
                 thePrac, 55);
         Student tempStudent  = newStudent;
@@ -62,14 +53,10 @@ public class TestDuplicateStudent {
     @Test
     public void testDuplicatesException() {
         Student newStudent;
-        DOB theDate = new DOB("06", "06", "1966");
-        double[] thePrac = new double[10];
-        for (int i = 0; i < thePrac.length; i++)
-        {
-            thePrac[i] = 55;
-        }
+        DOB theDate = new DOB(06, 06, 1966);
+        
         newStudent = new Student("Ms", "Grace","Park", theDate, 12345678, 55,55,
-                thePrac, 55);
+                55, 55);
         Student tempStudent  = newStudent;
         
         assertEquals("Result", true, newStudent.isEqual(tempStudent));
@@ -79,36 +66,43 @@ public class TestDuplicateStudent {
     @Test
     public void testDuplicatesValidation() {
         Student newStudent;
-        DOB theDate = new DOB("06", "06", "1966");
-        double[] thePrac = new double[10];
-        for (int i = 0; i < thePrac.length; i++)
-        {
-            thePrac[i] = 55;
-        }
+        DOB theDate = new DOB(06, 06, 1966);
+        
         newStudent = new Student("Ms", "Grace","Park", theDate, 12345678, 55,55,
-                thePrac, 55);
+                55, 55);
         Student tempStudent  = newStudent;
         Assignment2Q1_Student.push(newStudent);
         ValidStudent theTesty = new ValidationCheckDuplicateStudent();
-        assertEquals("Result", true, theTesty.isValid(tempStudent));
+        try
+        {
+            assertEquals("Result", true, theTesty.isValid(tempStudent));
+        }
+        catch(BadDetailsException e)
+        {
+            System.out.println(e);
+        }
         
     }
     
     @Test
     public void testDuplicatesFile() {
         Student newStudent;
-        DOB theDate = new DOB("06", "06", "1966");
-        double[] thePrac = new double[10];
-        for (int i = 0; i < thePrac.length; i++)
-        {
-            thePrac[i] = 55;
-        }
+        DOB theDate = new DOB(06, 06, 1966);
+       
         newStudent = new Student("Ms", "Grace","Park", theDate, 12345678, 55,55,
-                thePrac, 55);
+                55, 55);
         Student tempStudent  = newStudent;
         Assignment2Q1_Student.readStudent();
         ValidStudent theTesty = new ValidationCheckDuplicateStudent();
-        assertEquals("Result", true, theTesty.isValid(tempStudent));
+        try
+        {
+            assertEquals("Result", true, theTesty.isValid(tempStudent));
+        }
+        catch(BadDetailsException e)
+        {
+            System.out.println(e);
+        }
+        
     }
     
     

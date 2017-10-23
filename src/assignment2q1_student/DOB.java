@@ -113,7 +113,8 @@ public class DOB {
     }
     
     /**
-     *
+     * This method checks if the date held in the DOB object is a valid date.
+     * It validates the date against a year, leap year, month and day.
      * @return
      */
     public boolean isValidDate()
@@ -123,14 +124,13 @@ public class DOB {
         int theMonth = this.month;
         int theDay = this.day;
         
-        if(theYear >= 1900 
-                && theYear <= 9999)
+        if(theYear >= 1900 && theYear <= 9999)
         {
             if(theMonth >= 1 && theMonth <= 12)
             {
                 if((theDay >=1 && theDay <= 31)&&(theMonth == 1|| theMonth == 3)
                         || theMonth == 5 || theMonth == 7 || theMonth==8
-                        || theMonth ==10 || theMonth == 12)
+                        || theMonth == 10 || theMonth == 12)
                 {
                     theFlag = true;
                 }
@@ -168,7 +168,7 @@ public class DOB {
     }
     
     /**
-     *
+     * This method checks if the DOB object has empty fields.
      * @return
      */
     public boolean isEmpty()

@@ -9,11 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author rebecca
- */
+* This class validates the date of birth field. It checks if the field is 
+* populated
+* @throws BadDetailsException 
+*/
 public class ValidationCheckEmptyDOB implements ValidStudent{
     
+    /**
+     *
+     * @param inputStudent
+     * @return
+     * @throws BadDetailsException
+     */
     @Override
     public boolean isValid(Student inputStudent) throws BadDetailsException
     {
@@ -21,7 +28,8 @@ public class ValidationCheckEmptyDOB implements ValidStudent{
         if(inputStudent.getStudentDOB().isEmpty())
         {
             theFlag = false;
-            System.out.println("You didn't enter anything. Please enter something.");
+            System.out.println("You didn't enter anything. "
+                    + "Please enter something.");
             throw new BadDetailsException("You didn't enter anything. "
                     + "Please enter something");
         }

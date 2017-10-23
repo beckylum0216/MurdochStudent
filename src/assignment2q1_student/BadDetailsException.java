@@ -7,9 +7,8 @@ package assignment2q1_student;
 
 /**
  * @title Student Record System
- * @filename Assignment2Q1_Student.java
- * @purpose This class is the exception class that would validate user input
- *
+ * @filename BadDetailsException.java
+ * @purpose This class is used to extend the excdeption class.
  * @assumptions the inputs will only take in strings and doubles and do error 
  * checking on the input
  * @author Rebecca Lim

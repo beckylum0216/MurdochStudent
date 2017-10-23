@@ -6,8 +6,12 @@
 package assignment2q1_student;
 
 /**
- *
- * @author rebecca
+ * @title Student Record System
+ * @filename Student.java
+ * @purpose This class is used to encapsulate student details. It contains all 
+ * the methods used to validate the members of the class.
+ * @assumptions 
+ * @author Rebecca Lim
  */
 public class Student extends Person {
     
@@ -19,6 +23,9 @@ public class Student extends Person {
     private double overallMark;
     private String theGrade;
     
+    /**
+     *
+     */
     public Student()
     {
         this.setTitle(null);
@@ -34,6 +41,18 @@ public class Student extends Person {
         this.theGrade = null;
     }
     
+    /**
+     *
+     * @param inputTitle
+     * @param inputFirstName
+     * @param inputLastName
+     * @param inputDOB
+     * @param inputID
+     * @param inputAssignmentOne
+     * @param inputAssignmentTwo
+     * @param inputPrac
+     * @param inputExam
+     */
     public Student(String inputTitle, String inputFirstName, String inputLastName, 
             DOB inputDOB, long inputID, double inputAssignmentOne, 
             double inputAssignmentTwo, double inputPrac, double inputExam)
@@ -49,9 +68,12 @@ public class Student extends Person {
         this.setExamMark(inputExam);
         this.setOverallMark(weightedAverage());
         this.setTheGrade(printFinalMark(this.getOverallMark()));
-        
     }
     
+    /**
+     *
+     * @return
+     */
     public double weightedAverage()
     {
 
@@ -72,6 +94,11 @@ public class Student extends Person {
         return finalMark;
     }
     
+    /**
+     *
+     * @param inputMark
+     * @return
+     */
     public String printFinalMark(double inputMark)
     {
         String finalResult = "";
@@ -100,6 +127,11 @@ public class Student extends Person {
         return finalResult;
     }
 
+    /**
+     *
+     * @param inputStudent
+     * @return
+     */
     public boolean isEqual(Student inputStudent)
     {
         boolean theFlag = false;
@@ -113,7 +145,10 @@ public class Student extends Person {
         return theFlag;
     }
     
-    
+    /**
+     *
+     * @return
+     */
     public boolean isIDZero()
     {
         boolean theFlag = false;
@@ -126,60 +161,116 @@ public class Student extends Person {
         return theFlag;    
     }
     
+    /**
+     *
+     * @return
+     */
     public long getStudentID() {
         return studentID;
     }
 
+    /**
+     *
+     * @param studentID
+     */
     public void setStudentID(long studentID) {
         this.studentID = studentID;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAssignmentOne() {
         return assignmentOne;
     }
 
+    /**
+     *
+     * @param assignmentOne
+     */
     public void setAssignmentOne(double assignmentOne) {
         this.assignmentOne = assignmentOne;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getAssignmentTwo() {
         return assignmentTwo;
     }
 
+    /**
+     *
+     * @param assignmentTwo
+     */
     public void setAssignmentTwo(double assignmentTwo) {
         
         this.assignmentTwo = assignmentTwo;
     }
     
+    /**
+     *
+     * @return
+     */
     public double getPracWork()
     {
         return pracWork;
     }
 
+    /**
+     *
+     * @param pracWork
+     */
     public void setPracWork(double pracWork) {
         this.pracWork = pracWork;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getExamMark() {
         return examMark;
     }
 
+    /**
+     *
+     * @param examMark
+     */
     public void setExamMark(double examMark) {
         this.examMark = examMark;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getOverallMark() {
         return overallMark;
     }
 
+    /**
+     *
+     * @param overallMark
+     */
     public void setOverallMark(double overallMark) {
         this.overallMark = overallMark;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTheGrade() {
         return theGrade;
     }
 
+    /**
+     *
+     * @param theGrade
+     */
     public void setTheGrade(String theGrade) {
         this.theGrade = theGrade;
     }

@@ -3,17 +3,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/StudentStack.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/Person.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/TestData.csv</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckFirstName.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckNumLength.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckNumericID.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/Student.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckDuplicateStudent.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckEmptyFirstName.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckLastName.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/DOB.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckEmptyTitle.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckEmptyLastName.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckEmptyDOB.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/StudentData.csv</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckTitle.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/BadDetailsException.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/Assignment2Q1_Student.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckEmptyID.java</file>
+            <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidStudent.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckDateOfBirth.java</file>
             <file>file:/home/rebecca/murdoch/ICT167/Assignment2Q1/Assignment2Q1_Student/src/assignment2q1_student/ValidationCheckMarkRange.java</file>
         </group>

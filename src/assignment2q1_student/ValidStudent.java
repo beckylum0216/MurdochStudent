@@ -6,11 +6,22 @@
 package assignment2q1_student;
 
 /**
- *
- * @author rebecca
+ * @title Student Record System
+ * @filename ValidStudent.java
+ * @purpose This interface is the class that sets up the testing modules 
+ * requirements
+ * @assumptions the validations done via this interfaces would allow the program
+ * to call it all at once or individually.
+ * @author Rebecca Lim
  */
 public interface ValidStudent {
     
+    /**
+     *
+     * @param studentData
+     * @return
+     * @throws BadDetailsException
+     */
     public boolean isValid(Student studentData) throws BadDetailsException;
     
     

@@ -38,6 +38,7 @@ public class Assignment2Q1_Student {
     
     static final int THE_NUMBER = 1024;
     static int theIndex = -1;
+    // Unavoidable cannot instantiate class in validation class
     public static Student[] theStudent = new Student[THE_NUMBER];
     static Scanner theKB = new Scanner(System.in);
         
@@ -52,56 +53,63 @@ public class Assignment2Q1_Student {
        
         int theChoice;
         studentInfo();
+        readStudent();
        
         do
         {
-            printMenu();
-            theChoice = Integer.parseInt(theKB.nextLine());
-            System.out.println();
-            switch (theChoice)
+            try
             {
-                case 0:
-                    readStudent();
-                    break; 
-                case 1:
-                    theFlag = exitProg();
-                    break;
-                case 2:
-                    addRecord();
-                    break;
-                case 3:
-                    printStudents();
-                    break;
-                case 4:
-                    printMean();
-                    break;
-                case 5:
-                    printPassFail();
-                    break;
-                case 6:
-                    printDistribution();
-                    break;
-                case 7:
-                    searchStudentID();
-                    break;
-                case 8:
-                    searchStudentName();
-                    break;
-                case 9:
-                    findFirstSecond(theStudent, theIndex+1);
-                    break;
-                case 10:
-                    sSort(theStudent, theIndex+1);
-                    printStudents();
-                    break;
-                case 11:
-                    iSort(theStudent, theIndex+1);
-                    printStudents();
-                    break;
-                default:
-                    System.out.println("Please enter a valid choice");
+                printMenu();
+                theChoice = Integer.parseInt(theKB.nextLine());
+                System.out.println();
+                switch (theChoice)
+                {
+
+                    case 1:
+                        theFlag = exitProg();
+                        break;
+                    case 2:
+                        addRecord();
+                        break;
+                    case 3:
+                        printStudents();
+                        break;
+                    case 4:
+                        printMean();
+                        break;
+                    case 5:
+                        printPassFail();
+                        break;
+                    case 6:
+                        printDistribution();
+                        break;
+                    case 7:
+                        searchStudentID();
+                        break;
+                    case 8:
+                        searchStudentName();
+                        break;
+                    case 9:
+                        findFirstSecond(theStudent, theIndex+1);
+                        break;
+                    case 10:
+                        sSort(theStudent, theIndex+1);
+                        printStudents();
+                        break;
+                    case 11:
+                        iSort(theStudent, theIndex+1);
+                        printStudents();
+                        break;
+                    default:
+                        System.out.println("Please enter a valid choice");
+                }
             }
-            
+            catch(Exception e)
+            {
+                System.out.println(e);
+                theFlag = true;
+            }
+                
         }while(theFlag);
         
         System.out.println("Exiting...");
@@ -154,20 +162,7 @@ public class Assignment2Q1_Student {
         String csvSplit = ",";
         boolean theFlag = true;
         //Kludgy because it is not encapsulated in a class
-        ValidStudent[] testStudent = new ValidStudent[13];
-        testStudent[0] = new ValidationCheckEmptyTitle();
-        testStudent[1] = new ValidationCheckTitle();
-        testStudent[2] = new ValidationCheckEmptyFirstName();
-        testStudent[3] = new ValidationCheckFirstName();
-        testStudent[4] = new ValidationCheckEmptyLastName();
-        testStudent[5] = new ValidationCheckLastName();
-        testStudent[6] = new ValidationCheckEmptyID();
-        testStudent[7] = new ValidationCheckNumLength();
-        testStudent[8] = new ValidationCheckEmptyDOB();
-        testStudent[9] = new ValidationCheckDateOfBirth();
-        testStudent[10] = new ValidationCheckMarkRange();
-        testStudent[11] = new ValidationCheckNumericID();
-        testStudent[12] = new ValidationCheckDuplicateStudent();
+        ValidStudent[] testStudent = initStudentTests();
         
         do
         {
@@ -234,6 +229,25 @@ public class Assignment2Q1_Student {
         
     }
     
+    public static ValidStudent[] initStudentTests()
+    {
+        ValidStudent[] testStudent = new ValidStudent[13];
+        testStudent[0] = new ValidationCheckEmptyTitle();
+        testStudent[1] = new ValidationCheckTitle();
+        testStudent[2] = new ValidationCheckEmptyFirstName();
+        testStudent[3] = new ValidationCheckFirstName();
+        testStudent[4] = new ValidationCheckEmptyLastName();
+        testStudent[5] = new ValidationCheckLastName();
+        testStudent[6] = new ValidationCheckEmptyID();
+        testStudent[7] = new ValidationCheckNumLength();
+        testStudent[8] = new ValidationCheckEmptyDOB();
+        testStudent[9] = new ValidationCheckDateOfBirth();
+        testStudent[10] = new ValidationCheckMarkRange();
+        testStudent[11] = new ValidationCheckNumericID();
+        testStudent[12] = new ValidationCheckDuplicateStudent();
+        
+        return testStudent;
+    }
     /**
      * This method is a helper method that allows the readStudent method to 
      * create the object for storing in the array.  
@@ -276,25 +290,25 @@ public class Assignment2Q1_Student {
         double zAssignmentTwo = 0.00;
         double zPrac = -1;
         double zExam = 0.00;
+        //ValidStudent[] testStudent = initStudentTests();
         
         Student newStudent  = new Student();
-        //Kludgy because it is not encapsulated in a class 
-        ValidStudent[] testStudent = new ValidStudent[13];
-        testStudent[0] = new ValidationCheckEmptyTitle();
-        testStudent[1] = new ValidationCheckTitle();
-        testStudent[2] = new ValidationCheckEmptyFirstName();
-        testStudent[3] = new ValidationCheckFirstName();
-        testStudent[4] = new ValidationCheckEmptyLastName();
-        testStudent[5] = new ValidationCheckLastName();
-        testStudent[6] = new ValidationCheckEmptyID();
-        testStudent[7] = new ValidationCheckNumLength();
-        testStudent[8] = new ValidationCheckEmptyDOB();
-        testStudent[9] = new ValidationCheckDateOfBirth();
-        testStudent[10] = new ValidationCheckMarkRange();
-        testStudent[11] = new ValidationCheckNumericID();
-        testStudent[12] = new ValidationCheckDuplicateStudent();
-    
         
+        SignUpStudent neuStudent = new SignUpStudent();
+       
+        neuStudent.addStudentDetails("Title");
+        neuStudent.addStudentDetails("FirstName");
+        neuStudent.addStudentDetails("LastName");
+        neuStudent.addStudentDetails("StudentNumber");
+        neuStudent.addStudentDetails("DOB");
+        neuStudent.addStudentDetails("Marks");
+        neuStudent.addStudentDetails("Duplicates");
+        
+        newStudent = neuStudent.getNewStudent();
+        
+        push(newStudent); 
+        
+        /*
         do
         {
             try
@@ -314,6 +328,7 @@ public class Assignment2Q1_Student {
                 System.out.println(e);
             }
         }while(theFlag0 || theFlag1);
+        
         
         theFlag0 = true;
         theFlag1 = true;
@@ -393,6 +408,7 @@ public class Assignment2Q1_Student {
             
         }while(theFlag0 || theFlag1);
         
+        
         theFlag0 = true;
         theFlag1 = true;
         do
@@ -421,7 +437,8 @@ public class Assignment2Q1_Student {
             }
             
         }while(theFlag0 || theFlag1);
-                
+        
+        
         theFlag0 = true;
         theFlag1 = true;
         do
@@ -463,12 +480,14 @@ public class Assignment2Q1_Student {
             
         }while(theFlag0); 
         
+        
         theFlag0 = true;
         try
         {
             theFlag0  = testStudent[12].isValid(newStudent);
             if(!theFlag0)
             {
+                
                 push(newStudent); 
             }
         }
@@ -476,6 +495,7 @@ public class Assignment2Q1_Student {
         {
             System.out.println(e);
         }
+        */
         
     }
     
@@ -828,7 +848,7 @@ public class Assignment2Q1_Student {
             System.out.println("Please enter the last name: ");
             inputLast = theKB.nextLine();
            
-            theInput = inputFirst.concat(inputLast);
+            theInput = inputLast.concat(inputFirst);
             
             if (theInput.isEmpty())
             {
@@ -922,13 +942,13 @@ public class Assignment2Q1_Student {
         {
             midElement = (firstElement + lastElement)/2;
             
-            if (inputArr[midElement].getFirstName()
-                    .concat(inputArr[midElement].getLastName())
+            if (inputArr[midElement].getLastName()
+                    .concat(inputArr[midElement].getFirstName())
                     .compareTo(inputKey) > 0) 
             {
                 lastElement = midElement - 1;
-            } else if(inputArr[midElement].getFirstName()
-                    .concat(inputArr[midElement].getLastName())
+            } else if(inputArr[midElement].getLastName()
+                    .concat(inputArr[midElement].getFirstName())
                     .compareTo(inputKey) < 0){
                 firstElement = midElement + 1;
             }
@@ -941,6 +961,38 @@ public class Assignment2Q1_Student {
         return -1;
     }
     
+    
+    
+    /**
+     *
+     * @param inputArr
+     * @param inputLength
+     */
+    /*
+    public static void sNameSort(Student[] inputArr, int inputLength)
+    {
+        for (int i = 0; i < inputLength - 1; ++i)
+        {
+            int minElement = i;
+            for (int j = i + 1; j < inputLength; ++j)
+            {   
+                
+                String tempOrig = inputArr[j].getLastName()
+                        .concat(inputArr[j].getFirstName());
+                String tempComp = inputArr[minElement].getLastName()
+                        .concat(inputArr[minElement].getFirstName());
+                if (tempOrig.compareTo(tempComp) < 0)
+                {
+                  minElement = j;
+                }
+            }
+
+            Student temp = inputArr[i];
+            inputArr[i] = inputArr[minElement];
+            inputArr[minElement] = temp;
+        }
+    }
+    */
     /**
      *
      * @param inputArr
@@ -953,10 +1005,8 @@ public class Assignment2Q1_Student {
             int minElement = i;
             for (int j = i + 1; j < inputLength; ++j)
             {   
-                String tempOrig = inputArr[j].getFirstName()
-                        .concat(inputArr[j].getLastName());
-                String tempComp = inputArr[minElement].getFirstName()
-                        .concat(inputArr[minElement].getLastName());
+                String tempOrig = inputArr[j].getLastName();
+                String tempComp = inputArr[minElement].getLastName();
                 if (tempOrig.compareTo(tempComp) < 0)
                 {
                   minElement = j;

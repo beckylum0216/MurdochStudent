@@ -1,0 +1,1056 @@
+/**********************************************************
+Authors: Rebecca Lim 
+Date: 27/08/2017
+Purpose: The hangman game
+***********************************************************/
+
+Begin
+	Class DOB
+		declare private integer day
+		declare private integer month
+		declare private integer year
+
+		public procedure New()
+			this.Day = -1
+			this.Month = -1
+			this.Year = -1
+		end procedure
+
+		public procedure New(int inputDay, int inputMonth, int inputYear)
+			this.Day = inputDay
+			this.Month = inputMonth
+			this.Year = inputYear
+		end procedure
+
+		public function boolean isEqual(DOB inputDate)
+			if((this.day == inputDate.day) && (this.month == inputDate.month)&& (this.year == inputDate.month))
+				theFlag = true;
+			end if
+
+			return theFlag
+		end function
+
+		public function boolean isValidDate()
+			declare public boolean theFlag
+			declare public int theYear = this.year
+			declare public int theMonth = this.month
+			declare public int theDay = this.day
+
+			if(theYear >= 1900 && theYear <= 9999)
+				if(theMonth >= 1 && theMonth <= 12)
+					if((theDay >= 1) && (theDay <= 30) && (theMonth == 1 || theMonth ==3 || theMonth == 5|| theMonth == 7|| theMonth == 8 || theMonth == 10 || theMonth ==12))
+						theFlag = true
+					else 
+						if ((theDay >= 1 && theDay <= 30) && (theMonth == 4 || theMonth == 6 || theMonth == 9 || theMonth == 11))
+							theFlag = true;
+						else
+							if((theDay >= 1 && theDay <= 28) && theMonth == 2)
+								theFlag = true
+							else
+								if ((theDay == 29) && (theYear % 400 == 0 || theYear % 4 == 0 || theYear%100 != 0))
+									theFlag = true
+								else
+									theFlag = false
+								end if
+							end if
+						end if
+					end if
+				else
+					theFlag = false
+				end if
+			else
+				theFlag = false
+			end if
+
+			return theFlag
+		end function
+
+		public function boolean isEmpty()
+			declare theFlag = false 
+
+			if(this.getDay() == -1)
+				theFlag = true
+			end if
+
+			if (this.getMonth() == -1)
+				theFlag = true
+			end if
+
+			if(this.getYear() == -1)
+				theFlag = true
+			end if
+
+			return theFlag
+		end function
+	end class
+
+	Class Person
+		declare private String title
+		declare private String firstName
+		declare private String lastName
+		declare private DOB studentDOB
+
+
+		public function boolean  isValidTitle()
+			declare public boolean theFlag =  false;
+
+			if((this.title == "mr")|| (this.title == "mrs") ||(this.title == "ms"))
+				theFlag = true;
+			end if
+
+			return theFlag
+		end function
+	end class
+
+	Class Student inherits Person
+        declare private long studentID
+        declare private double assignmentOne
+        declare private double assignmentTwo
+        declare private double pracWork
+        declare private double examMark
+        declare private double overallMark
+        declare private String theGrade
+
+        public procedure New()
+            this.setTitle(null)
+            this.setFirstName(null)
+            this.setLastName(null)
+            this.setStudentDOB(new DOB())
+            this.studentID = -1
+            this.assignmentTwo = -1
+            this.assignmentTwo = -1
+            this.pracWork = -1
+            this.examMark = -1
+            this.overallMark = -1
+            this.theGrade = null
+        end procedure
+
+        public procedure New(String inputTitle, String inputFirstName, String inputLastName, 
+            DOB inputDOB, long inputID, double inputAssignmentOne, 
+            double inputAssignmentTwo, double inputPrac, double inputExam)
+    
+            this.setTitle(inputTitle)
+            this.setFirstName(inputFirstName)
+            this.setLastName(inputLastName)
+            this.setStudentDOB(inputDOB)
+            this.setStudentID(inputID)
+            this.setAssignmentOne(inputAssignmentOne)
+            this.setAssignmentTwo(inputAssignmentTwo)
+            this.setPracWork(inputPrac)
+            this.setExamMark(inputExam)
+            this.setOverallMark(weightedAverage())
+            this.setTheGrade(printFinalMark(this.getOverallMark()))
+
+        end procedure
+
+        public function weightedAverage()
+            declare double weightedPracWork = 0
+            declare double weightedAssignmentOne = 0 
+            declare double weightedAssignmentTwo = 0
+            declare double weightedExam = 0
+            declare double finalMark = 0
+
+            weightedPracWork = this.pracWork
+            weightedAssignmentOne = 0.2 * this.assignmentOne
+            weightedAssignmentTwo = 0.2 * this.assignmentTwo
+            weightedExam = 0.5 * this.examMark
+            
+            finalMark = weightedPracWork + weightedAssignmentOne 
+                    + weightedAssignmentTwo + weightedExam
+            
+            return finalMark
+        end function
+
+        public function printFinalMark(double inputMark)
+            declare String finalResult = "";
+        
+            if (inputMark > 80.00)
+                finalResult = "HD"
+            else 
+                if (inputMark > 70)
+            
+                    finalResult = "D"
+            
+                else 
+                    if(inputMark > 60)
+            
+                        finalResult  = "C";
+            
+                    else 
+                        if(inputMark > 50)
+            
+                            finalResult = "P";
+            
+                        else
+            
+                            finalResult = "N";
+                        end if
+                    end if
+                end if
+            end if
+    
+            return finalResult;
+        end function
+
+        public function boolean isEqual(Student inputStudent)
+            boolean theFlag = false;
+            
+            if((this.getFirstName().equalsIgnoreCase(inputStudent.getFirstName()))
+                &&(this.getLastName().equalsIgnoreCase(inputStudent.getLastName())) 
+                  &&(this.getStudentDOB().isEqual(inputStudent.getStudentDOB()))
+                        &&(this.getStudentID() == inputStudent.getStudentID()))
+        
+                theFlag = true;
+            end if
+            return theFlag;
+        end function
+
+        public function boolean isIDZero()
+            declare boolean theFlag = false
+
+            if(this.getStudentID() == -1)
+        
+                theFlag = true;
+            end if
+        
+            return theFlag;
+        end function
+
+    end class
+
+    class BadDetailsException inherits Exception 
+    
+        public procedure New()
+            super("BadDetailsException");
+        end procedure
+    
+        public procedure New(String badMessage)
+        
+            super(badMessage);
+        end procedure
+    end class
+
+    interface ValidStudent 
+
+        public function boolean isValid(Student studentData) throws BadDetailsException
+
+    end interface
+
+    class ValidationCheckDateOfBirth implements ValidStudent
+
+        public function boolean isValid(Student studentData) throws BadDetailsException
+            declare boolean theFlag = true
+
+            if(!inputStudent.getStudentDOB().isValidDate())
+                theFlag = false
+                print "The date of birth is invalid"
+                throw new BadDetailsException("The date of birth is invalid")
+            end if
+        
+            return !theFlag
+        end function
+    end class
+
+    class ValidationCheckDuplicateStudent implements ValidStudent
+        declare boolean theFlag = false
+        
+        for(int i = 0; i < Assignment2Q1_Student.theIndex+1; i++)
+        
+            Student tempStudent = Assignment2Q1_Student.theStudent[i]
+            
+            if(tempStudent.isEqual(inputStudent))
+            
+                theFlag = true;
+                print "The student exists already!"
+                throw new BadDetailsException("The student exists already")
+            end if
+        end for
+        
+        return theFlag
+    end class
+
+    class ValidationCheckEmptyDOB implements ValidStudent
+    
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+        
+            boolean theFlag = true;
+            if(inputStudent.getStudentDOB().isEmpty())
+            
+                theFlag = false;
+                print "You didn't enter anything. Please enter something."
+                throw new BadDetailsException("You didn't enter anything. "
+                        + "Please enter something")
+            endif
+           
+            return !theFlag;
+        end function
+    end class
+
+    class ValidationCheckEmptyFirstName implements ValidStudent
+    
+        public function boolean isValid(Student inputStudent)throws BadDetailsException
+        
+            declare boolean theFlag = true;
+            
+            if(inputStudent.getFirstName().isEmpty())
+            
+                theFlag = false;
+                print "You didn't enter anything. Please enter something."
+                throw new BadDetailsException("You didn't enter anything. "
+                        + "Please enter something")
+            
+            return !theFlag;
+                
+            
+        end function
+
+    end class
+
+    class ValidationCheckEmptyID implements ValidStudent
+    
+        public function boolean isValid(Student inputStudent)throws BadDetailsException
+        
+            declare boolean theFlag = true;
+            
+            if(inputStudent.isIDZero)
+            
+                theFlag = false;
+                print "You didn't enter anything. Please enter something."
+                throw new BadDetailsException("You didn't enter anything. "
+                        + "Please enter something")
+            
+            return !theFlag;
+                
+            
+        end function
+
+    end class
+
+    class ValidationCheckEmptyLastName implements ValidStudent
+    
+        public function boolean isValid(Student inputStudent)throws BadDetailsException
+        
+            declare boolean theFlag = true;
+            
+            if(inputStudent.getLastName.isEmpty())
+            
+                theFlag = false;
+                print "You didn't enter anything. Please enter something."
+                throw new BadDetailsException("You didn't enter anything. "
+                        + "Please enter something")
+            
+            return !theFlag;
+                
+            
+        end function
+
+    end class
+
+    class ValidationCheckEmptyTitle implements ValidStudent
+    
+        public function boolean isValid(Student inputStudent)throws BadDetailsException
+        
+            declare boolean theFlag = true;
+            
+            if(inputStudent.getTitle.isEmpty())
+            
+                theFlag = false;
+                print "You didn't enter anything. Please enter something."
+                throw new BadDetailsException("You didn't enter anything. "
+                        + "Please enter something")
+            
+            return !theFlag;
+                
+            
+        end function
+
+    end class
+
+    class ValidationCheckFirstName implements ValidStudent
+
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+        
+            declare boolean theFlag = true
+            declare String theRegx = "^[a-zA-Z]*$"
+            declare Pattern thePattern = Pattern.compile(theRegx,Pattern.CASE_INSENSITIVE)
+            declare Matcher theMatcher = thePattern.matcher(inputStudent.getFirstName())
+            
+            if(!theMatcher.find())
+            
+                theFlag = false;
+                print "Please enter a name that contains "
+                        + "[A to z or a to z]"
+                throw new BadDetailsException("Please enter a name that contains "
+                        + "[A to z or a to z]")
+            end if
+            return !theFlag;
+        end function
+    end class
+
+    class ValidationCheckLastName implements ValidStudent
+    
+        public boolean isValid(Student inputStudent) throws BadDetailsException
+        
+            declare boolean theFlag = true;
+            declare String theRegx = "^[a-zA-Z]*$";
+            declare Pattern thePattern = Pattern.compile(theRegx,Pattern.CASE_INSENSITIVE);
+            declare Matcher theMatcher = thePattern.matcher(inputStudent.getLastName());
+            
+            if(!theMatcher.find())
+            
+                theFlag = false
+                print "Please enter a name that contains "
+                        + "[A to z or a to z]"
+                throw new BadDetailsException("Please enter a name that contains "
+                        + "[A to z or a to z]")
+            end if
+            
+            return !theFlag;
+        end function
+    end class
+
+    class ValidationCheckMarkRange implements ValidStudent
+
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+    
+            declare boolean theFlag = false;
+        
+            if(!(inputStudent.getAssignmentOne() >=0 
+                    && inputStudent.getAssignmentOne()<=  100))
+            
+                theFlag = true;
+                print "The assignment 1 mark is invalid"
+                throw new BadDetailsException("The assignment 1 mark is invalid")
+            end if
+            
+            
+            if(!(inputStudent.getAssignmentTwo() >= 0 
+                    && inputStudent.getAssignmentTwo() <=100))
+            
+                theFlag = true;
+                print "The assignment 2 mark is invalid"
+                throw new BadDetailsException("The assignment 2 mark is invalid")
+            end if
+            
+            
+            if(!(inputStudent.getPracWork() >= 0 && inputStudent.getPracWork() <= 10))
+            
+                theFlag = true;
+                print "The practical mark is invalid"
+                throw new BadDetailsException("The practical mark is invalid")
+            end if
+            
+             
+            if(!(inputStudent.getExamMark() >= 0 && inputStudent.getExamMark() <= 100))
+            
+                theFlag = true;
+                print "The exam mark is invalid"
+                
+                throw new BadDetailsException("The exam mark is invalid")
+            end if
+            
+            return theFlag; 
+        end function
+    end class
+
+    class ValidationCheckNumLength implements ValidStudent
+
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+        
+            
+            declare boolean theFlag = true;
+            if(Long.valueOf(inputStudent.getStudentID()).toString().length() < 8)
+            
+                theFlag = false;
+                print "The student number is invalid"
+                throw new BadDetailsException("The student number is invalid")
+            end if
+            
+            return !theFlag;
+        end function
+    end class
+
+    class ValidationCheckNumericID implements ValidStudent
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+        
+            declare boolean theFlag = false;
+            try  
+            
+                long theID = Long.parseLong(Long.toString(inputStudent.getStudentID()));  
+            
+            catch(NumberFormatException nfe)  
+            
+                theFlag = true;
+                throw new BadDetailsException("The student number is invalid");
+                  
+            end try
+            
+            return theFlag; 
+        end function
+    end class
+
+    class ValidationCheckTitle implements ValidStudent
+
+        public function boolean isValid(Student inputStudent) throws BadDetailsException
+    
+            declare boolean theFlag = true;
+            declare String theRegx = "[a-zA-Z]";
+            declare Pattern thePattern = Pattern.compile(theRegx,Pattern.CASE_INSENSITIVE);
+            declare Matcher theMatcher = thePattern.matcher(inputStudent.getTitle());
+            
+            if(!theMatcher.find())
+            
+                theFlag = false;
+                print "Please enter a title that contains [A-Z;a-z]"
+                throw new BadDetailsException("Please enter a title that contains "
+                        + "[A to z or a to z]");
+            end if
+            
+            if(!inputStudent.isValidTitle())
+            
+                theFlag = false;
+                print "Please enter a title that contains [Mr/Mrs/Ms]"
+                throw new BadDetailsException("Please enter a title that contains "
+                        + "[Mr/Mrs/Ms]")
+            end if
+            
+            return !theFlag;
+            
+        end function
+    end class
+
+    class Assignment2Q1_Student
+
+        declare static final int THE_NUMBER = 1024;
+        declare static int theIndex = -1;
+        declare public static Student[] theStudent = new Student[THE_NUMBER];
+        declare static Scanner theKB = new Scanner(System.in);
+
+        public function main
+            boolean theFlag = true
+            int theChoice
+
+            studentInfo()
+            readStudent()
+
+            do
+                try
+                    printMenu()
+                    read theChoice
+                    print "\n"
+
+                    case(theChoice)
+                        case 1
+                            theFlag = exitProg()
+                        case 2
+                            addRecord()
+                        case 3
+                            printStudents()
+                        case 4
+                            printMean()
+                        case 5
+                            printPassFail()
+                        case 6
+                            printDistribution()
+                        case 7
+                            searchStudentID()
+                        case 8
+                            searchStudentName()
+                        case 9
+                            findFirstSecond(theStudent, theIndex + 1)
+                        case 10
+                            sSort(theStudent, theIndex + 1)
+                            printStudents()
+                        case 11
+                            iSort(theStudent, theIndex + 1)
+                            printStudents()
+                    end case
+                catch(Exception e)
+                    print e
+                    theFlag = true
+                end try
+            while(theFlag)
+
+        end function
+
+        public function static void printMenu()
+            print "Menu"
+            print "========================================="
+            print "1: Quit."
+            print "2: Press 2 to add student information"
+            print "3: Press 3 to display all student information."
+            print "4: Press 4 to calculate and displaythe average for the class"
+            print "5: Press 5 to display students above or below the average mark"
+            print "6: Press 6 to show the distribution of grades"
+            print "7: Press 7 to seach for student by student ID."
+            print "8: Press 8 to search for student by name"
+            print "9: Press 9 to list the first and second highest marks."
+            print "10: Press 10 to sort the class by name"
+            print "11: Press 11 to sort the class by student number"
+        end function
+
+        public function static void readStudent()
+            declare Path csvFile = Path.get("src/assignement2q1_student/StudentData.csv")
+            declare string theRecord = "";
+            declare csvSplit = ","
+            declare theFlag = true
+            declare ValidStudent[] testStudent = initStudentTests()
+
+            do
+                Student newStudent
+                try (BufferedReader theBR = Files.newBufferedReadfer(csvFile, StandardCharsets.UTF_8))
+                    theBR.readLine()
+                    while((theRecordn = theBR.readLine()) != null)
+                        try
+                            String[] theAttribute = theRecord.split(csvSplit)
+                            newStudent = creaStudentObj(theAttribute)
+                            boolean theCheck = false
+                            for i to testStudent.length
+
+                                theCheck = testStudent[i].isValid(newStudent);
+
+
+                                if(theCheck)
+                                    break
+                                end if
+                            end for
+
+                            if(!theCheck)
+                                print "The record is valid"
+                                push(newStudent)
+                            else
+                                print "The record is invalid"
+                            end if
+
+                            print "===Mark==="
+                        catch(NumberFormatException e)
+                            print e
+                            print "===Mark==="
+                        catch(BadDetailsException e)
+                            print e
+                            print "===Mark==="
+
+                        end try
+                    end while
+                    theFlag = false
+                catch(FileNotFoundException e)
+                    print e
+                catch(IOException e)
+                    print e
+            while(theFlag)
+        end function
+
+        public function static ValidStudent[] initStudentTests()
+        
+            ValidStudent[] testStudent = new ValidStudent[13];
+            
+            testStudent[1] = new ValidationCheckEmptyTitle();
+            testStudent[2] = new ValidationCheckTitle();
+            testStudent[3] = new ValidationCheckEmptyFirstName();
+            testStudent[4] = new ValidationCheckFirstName();
+            testStudent[5] = new ValidationCheckEmptyLastName();
+            testStudent[6] = new ValidationCheckLastName();
+            testStudent[7] = new ValidationCheckEmptyID();
+            testStudent[8] = new ValidationCheckNumLength();
+            testStudent[9] = new ValidationCheckEmptyDOB();
+            testStudent[10] = new ValidationCheckDateOfBirth();
+            testStudent[11] = new ValidationCheckNumericID();
+            testStudent[12] = new ValidationCheckDuplicateStudent()
+
+            return testStudent
+        end function
+
+        public function Student createStudentObj (String[] inputArr)
+
+            declare String zTitle = inputArr[0]
+            declare String zFirstName = inputArr[1]
+            declare String zLastName = inputArr[2]
+            declare integer zDay = Integer.parseInt(inputArr[3])
+            declare integer zMonth = Integer.parseInt(inputArr[4])
+            declare integer zYear = integer.parseInt(inputArr[5])
+            DOB zBirthday = new DOB(zDay, zMonth, zYear)
+            long zStudentNum = Long.parseLong(inputArr[6])
+            double zAssignmentOne = Double.parseDouble(inputArr[7])
+            double zAssignmentTwo  = Double.parseDouble(inputArr[8])
+            double zPrac = Double.parseDouble(inputArr[9])
+            double zExam = Double.parseDouble(inputArr[10])
+
+            return new Student(zTitle, zFirstName, zLastName, zBirthday, zStudentNum, zAssignmentOne, zAssignmentTwo, zPrac, zExam)
+        end function
+
+        public function void addRecord()
+            Student = new Student()
+
+            SignUpStudent neuStudent = new SignUpStudent()
+
+            neuStudent.addStudentDetails("Title")
+            neuStudent.addStudentDetails("FirstName")
+            neuStudent.addStudentDetails("LastName");
+            neuStudent.addStudentDetails("StudentNumber")
+            neuStudent.addStudentDetails("DOB")
+            neuStudent.addStudentDetails("Marks")
+            neuStudent.addStudentDetails("Duplicates")
+
+            newStudent = neuStudent.getNewStudent();
+
+            push(newStudent)
+
+        end function
+
+        public function static void  push(Student inputData)
+            if(theIndex < theStudent.length -1)
+                theIndex++
+                theStudent[theIndex] = inputData
+                print "The record is saved."
+            else
+                print "The array is full"
+            end if
+        end function
+
+        public function static void printStudents()
+            for g to theIndex + 1
+                printStudent(g)
+            end for
+        end function
+
+        private function static void printStudent(int  studentIndex)
+            print "Title: ", theStudent[studentIndex].getTitle()
+            print "First Name: ", theStudent[studentIndex].getFirstName()
+            print "Last Name: ", theStudent[studentIndex].getLastName()
+            print "Student ID: ", theStudent[studentIndex].getStudentID()
+            print "Date of Birth: ", theStudent[studentIndex].getStudentDOB.getDay() 
+                    + "/" +theStudent[studentIndex].getStudentDOB.getMonth() 
+                    +"/"+ theStudent[studentIndex].getStudentDOB.getMonth()
+            print "Mark: ", theStudent[studentIndex].getOverallMark()
+            print "Grade: ", theStudent[studentIndex].getTheGrade()
+            print "\n"
+        end function
+
+        public function static void printMarks()
+            for g to theStudent.length
+                print "Assignment 1: ", theStudent[g].getAssignmentOne()
+                print "Assignment 2: ", theStudent[g].getAssignmentTwo()
+                print "Practical Mark: ", theStudent[g].getPracWork()
+                print "Exam: ", theStudent[g].getExamMark()
+            end for
+        end function
+
+        public function static void printMean()
+            print "The class mean is: ", geoMean()
+            print "\n"
+        end function
+
+        public function static double geoMean()
+            declare double geoTotal = 1
+            declare double theMean = 0;
+
+            for i to theIndex+1
+                geoTotal = geoTotal * theStudent[i].weightedAverage()
+            end for
+
+            theMean  = Math.pow(geoTotal, 1.0/(theIndex+1))
+
+            return theMean
+        end function
+
+        public function static void printPassFail()
+            print "The number passed: ", passNum()
+            print "\n"
+            print "The number failed:", failNum()
+            print "\n"
+        end function
+
+        public function static integer passNum()
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage >= geoMean())
+                    counter = counter + 1
+                end if
+            end for
+        end function
+
+        public function static integer failNum()
+            declare integer counter = 0
+            for i to theIndex+1 
+                if(theStudent[i].weightedAverage() < geoMean())
+                    counter = counter + 1
+                end if
+            end for
+        end function
+
+        public function static void printDistribution()
+            print "The number of HD: ", filterHD()
+            print "\n"
+            print "The number of D", filterD()
+            print "\n"
+            print "The number of C", filterC()
+            print "\n"
+            print "The number of P", filterP()
+            print "\n"
+            print "The number of N", filterN()
+        end function
+
+        public function static integer filterHD
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() > 80)
+                    counter =  counter + 1
+                end if
+            end for
+        end function
+
+        public function static integer filterH
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() > 70)
+                    counter =  counter + 1
+                end if
+            end for
+        end function 
+
+        public function static integer filterC
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() > 60)
+                    counter =  counter + 1
+                end if
+            end for
+        end function 
+
+        public function static integer filterP
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() >= 50)
+                    counter =  counter + 1
+                end if
+            end for
+        end function 
+
+        public function static integer filterN
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() < 50)
+                    counter =  counter + 1
+                end if
+            end for
+        end function 
+
+        public function static void searchStudentID()
+            declare String theInput
+            declare long theKey = 0
+            declare integer theResult = 0
+            declare boolean theFlag = true
+
+            iSort(theStudent, theIndex + 1)
+
+            do
+                print "Please enter a student ID to start searching"
+                read theInput
+
+                if(theInput.isEmpty())
+                    print "Please enter a number"
+                    theFlag = true
+                else if(isLong(theInput))
+                    thekey = Long.parseLong(theInput)
+                    theFlag = true
+                else
+                    print "Please enter a student number: "
+                    theFlag = true
+                end if
+            while(theFlag)
+
+            theResult = bSearch(theStudent, theKey)
+
+            if(theResult == -1)
+                print "Error no record"
+            else
+                print "\n"
+                printStudent(theResult)
+            end if
+
+        end function
+
+        public function static void searchStudentName()
+            declare String inputFirst
+            declare String inputLast
+            declare String theInput 
+            declare String theKey
+            declare theResult = 0
+
+            declare boolean the theFlag = true
+
+            sSort(theStudent, theIndex + 1)
+
+            do
+                print "Please eter a  student name to start searching"
+                print "Please enter the first name: "
+                read inputFirst
+                print "Please enter the last name: "
+                read inputLast
+                theInput = inputFirst.concat(inputLast)
+
+                if(theIndex.isEmpty())
+                    print "Please enter a name!"
+                    theFlag = true
+                else
+                    theKey = theInput
+                    theFlag = false
+                end if
+
+            while(theFlag)
+
+            theResult = bSearch(theStudent, theKey)
+
+            if(theResult == -1)
+                print "Error no record"
+            else
+                print "\n"
+                printStudent(theResult)
+            end if
+        end function
+
+        public function static boolean isLong(String inputString)
+            try
+                long d = Long.parseLong(inputString)
+            catch(NumberFormatException exception)
+                return false
+            end try
+
+            return true
+        end function
+
+        public function static integer bSearch(Student[] inputArr, long inputKey)
+            declare integer firstElement = 0
+            declare integer lastElement = theIndex
+            declare integer midElement
+
+            while(firstElement <= lastElement)
+                midElement = (firstElement + lastElement)/2
+
+                if(inputKey == inputArr[midElement].getStudentID())
+                    return midElement
+                end if
+
+                if(inputKey < input[midElement].getStudentID())
+                    lastElement = midElement - 1
+                else
+                    firstElement = midElement + 1
+                end if
+            end while
+
+            return -1
+        end function
+
+        public function static integer bSearch(Student[]  inputArr, String inputKey)
+            declare integer firstElement = 0
+            declare integer lastElement = (theIndex + 1) - 1
+            declare integer midElement
+
+            while (firstElement <= lastElement)
+
+                midElement = (firstElement + lastElement)/2
+
+                if (inputArr[midElement].getFirstName().concat(inputArr[midElement].getLastName()).compareTo(inputKey) > 0)
+                    lastElement = midElement - 1
+                else 
+                    if(inputArr[midElement].getFirstName().concat(inputArr[midElement].getLastName()).compareTo(inputKey) < 0)
+                        firstElement = midElement +1
+                    else
+                        return midElement
+                    end if
+                end if
+            end while
+            
+            return -1
+
+        end function
+
+        public function  static void sSort(Student[] inputArr, integer inputLength)
+            for i to inputLength  - 1
+                declare integer minElement = 1
+                for j = i +1 to inputLength
+                    declare String tempOrig = inputArr[j].getLastName()
+                    declare tempComp = inputArr[minElement].getLastName()
+                    if(tempOrig.compareTo(tempComp) < 0)
+                        minElement = j
+                    end if
+                end for
+            
+
+                Student temp = inputArr[i]
+                inputArr[i] = inputArr[minElement]
+                inputArr[minElement] = temp
+            end for
+        end function
+
+        public function static void iSort(Student[] inputArr, integer inputLength)
+            declare Student temp = new Student()
+            declare integer j = 0
+
+            for i to inputLength
+                temp  = inputArr[i]
+                while(j > 0 && temp.getStudentID() < inputArr[j-1].getStudentID())
+                    inputArr[j] = inputArr[j-1]
+                    j = j - 1
+                end while
+
+                inputArr[j] = temp
+
+            end for
+        end function
+
+        public function static void findFirstSecond(Student[] inputArr, integer inputLength)
+            declare integer numLarge = 0
+            declare integer numLargest = 0
+
+            for j to inputLength
+                if(inputArr[j].weightedAverage > inputArr[numLargest].weightedAverage())
+                    numLarge = numLargest
+                    numLargest = j
+                else
+                    if(inputArr[j].weightedAverage() > inputArr[numLarge].weightedAverage())
+                        numLarge = j
+                    end if
+                end if
+            end for
+        
+            print "\n"
+            print "The largest number is : "
+            printStudent(numLargest)
+            print "\n"
+            print "The second largest number is: "
+            printStudent(numLarge)
+            print "\n"
+        end function
+
+        public function boolean exitProg()
+
+            declare character theResponse
+            declare boolean theCheck = true
+            declare boolean theFlag = true
+
+            do
+                print "Would you like to continue"
+                read theResponse
+                if(theResponse == 'y')
+                    theCheck = false
+                    theFlag = true
+                else
+                    if(theResponse == 'n')
+                        theCheck = false
+                        theFlag = false
+                    else
+                        print "Please enter [Y/N] only"
+                        theCheck = true
+                    end if
+                end if
+            while (theCheck)
+
+            return theFlag
+        end function
+
+
+
+
+
+

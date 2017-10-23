@@ -9,13 +9,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
- * @author rebecca
- */
+* This class checks if the new Student object is valid.
+* @throws BadDetailsException 
+*/
 public class ValidationCheckDuplicateStudent implements ValidStudent{
     
     /**
-     * This method checks if the date of birth of 
+     * This method check if the record to be added is a duplicate.
      * @param inputStudent
      * @return theFlag
      * @throws BadDetailsException 
@@ -24,7 +24,6 @@ public class ValidationCheckDuplicateStudent implements ValidStudent{
     @Override
     public boolean isValid(Student inputStudent) throws BadDetailsException
     {
-        
         boolean theFlag = false;
         
         for(int i = 0; i < Assignment2Q1_Student.theIndex+1; i++)

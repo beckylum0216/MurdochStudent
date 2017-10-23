@@ -14,6 +14,12 @@ import java.util.regex.Pattern;
  */
 public class ValidationCheckNumLength implements ValidStudent{
     
+    /**
+     *
+     * @param inputStudent
+     * @return
+     * @throws BadDetailsException
+     */
     @Override
     public boolean isValid(Student inputStudent) throws BadDetailsException
     {

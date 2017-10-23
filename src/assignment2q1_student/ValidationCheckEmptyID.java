@@ -14,6 +14,12 @@ import java.util.regex.Pattern;
  */
 public class ValidationCheckEmptyID implements ValidStudent{
     
+    /**
+     * This methodcheck if the field in the 
+     * @param inputStudent
+     * @return
+     * @throws BadDetailsException
+     */
     @Override
     public boolean isValid(Student inputStudent) throws BadDetailsException
     {
