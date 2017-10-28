@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ValidationCheckEmptyLastName implements ValidStudent{
     
     /**
-     *
+     * This method checks if the last name field has is an empty field and 
+     * returns a boolean to flag this error.
      * @param inputStudent
      * @return
      * @throws BadDetailsException

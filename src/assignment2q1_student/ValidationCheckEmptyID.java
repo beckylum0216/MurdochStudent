@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ValidationCheckEmptyID implements ValidStudent{
     
     /**
-     * This methodcheck if the field in the 
+     * This method checks if the student number field has is an empty field and 
+     * returns a boolean to flag this error.
      * @param inputStudent
      * @return
      * @throws BadDetailsException

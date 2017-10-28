@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class ValidationCheckNumLength implements ValidStudent{
     
     /**
-     *
+     * This method checks if the student number entered is the prescibed length
      * @param inputStudent
      * @return
      * @throws BadDetailsException
@@ -25,7 +25,15 @@ public class ValidationCheckNumLength implements ValidStudent{
     {
         
         boolean theFlag = true;
-        if(Long.valueOf(inputStudent.getStudentID()).toString().length() < 8)
+        int numLength = Long.valueOf(inputStudent.getStudentID()).toString().length();
+        if(  numLength > 8)
+        {
+            theFlag = false;
+            System.out.println("The student number is invalid");
+            throw new BadDetailsException("The student number is invalid");
+        }
+        
+        if(  numLength < 8)
         {
             theFlag = false;
             System.out.println("The student number is invalid");

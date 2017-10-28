@@ -16,9 +16,10 @@ import java.util.regex.Pattern;
 public class ValidationCheckEmptyDOB implements ValidStudent{
     
     /**
-     *
+     * This method checks if the DOB object has an empty field and returns a 
+     * boolean to flag this error.
      * @param inputStudent
-     * @return
+     * @return theFlag boolean for empty birthdate error
      * @throws BadDetailsException
      */
     @Override

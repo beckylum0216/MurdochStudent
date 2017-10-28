@@ -13,8 +13,12 @@ package assignment2q1_student;
  * @assumptions 
  * @author Rebecca Lim
  */
-public class Student extends Person {
+public class Student {
     
+    private String title;
+    private  String firstName;
+    private String lastName;
+    private DOB studentDOB;
     private long studentID;
     private double assignmentOne;
     private double assignmentTwo;
@@ -24,7 +28,7 @@ public class Student extends Person {
     private String theGrade;
     
     /**
-     *
+     * This  contructor allows the initialisation of the student object
      */
     public Student()
     {
@@ -42,7 +46,8 @@ public class Student extends Person {
     }
     
     /**
-     *
+     * This constructor allows the Student to initialise the object to the 
+     * inputs
      * @param inputTitle
      * @param inputFirstName
      * @param inputLastName
@@ -71,8 +76,8 @@ public class Student extends Person {
     }
     
     /**
-     *
-     * @return
+     * This method calculates the weighted average of the studen object.
+     * @return finalMark the weighted average mark
      */
     public double weightedAverage()
     {
@@ -95,9 +100,9 @@ public class Student extends Person {
     }
     
     /**
-     *
+     * This method grades the student by its weight average mark
      * @param inputMark
-     * @return
+     * @return finalResult the grade representation of the object
      */
     public String printFinalMark(double inputMark)
     {
@@ -159,6 +164,88 @@ public class Student extends Person {
         }
         
         return theFlag;    
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     *
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     *
+     * @param firstName
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     *
+     * @param lastName
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public DOB getStudentDOB() {
+        return studentDOB;
+    }
+
+    /**
+     *
+     * @param studentDOB
+     */
+    public void setStudentDOB(DOB studentDOB) {
+        this.studentDOB = studentDOB;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean isValidTitle()
+    {
+        boolean theFlag = false;
+        
+        if((this.title.compareTo("mr") == 0) 
+                || (this.title.compareTo("mrs") == 0) 
+                || (this.title.compareTo("ms")== 0))
+        {
+            theFlag = true;
+        }
+        
+        return theFlag;
     }
     
     /**

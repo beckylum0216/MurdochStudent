@@ -35,7 +35,7 @@ public class DOB {
     }
     
     /**
-     * Constructor with 
+     * Constructor that allows the input of DOB
      * @param inputDay
      * @param inputMonth
      * @param inputYear
@@ -96,9 +96,9 @@ public class DOB {
     }
     
     /**
-     *
+     * This method validates if the date of birth are the same.
      * @param inputDate
-     * @return
+     * @return theFlag boolean 
      */
     public boolean isEqual(DOB inputDate)
     {
@@ -115,7 +115,7 @@ public class DOB {
     /**
      * This method checks if the date held in the DOB object is a valid date.
      * It validates the date against a year, leap year, month and day.
-     * @return
+     * @return theFlag a boolean
      */
     public boolean isValidDate()
     {
@@ -128,18 +128,18 @@ public class DOB {
         {
             if(theMonth >= 1 && theMonth <= 12)
             {
-                if((theDay >=1 && theDay <= 31)&&(theMonth == 1|| theMonth == 3)
+                if(((theDay >=1) && (theDay <= 31))&&(theMonth == 1|| theMonth == 3)
                         || theMonth == 5 || theMonth == 7 || theMonth==8
                         || theMonth == 10 || theMonth == 12)
                 {
                     theFlag = true;
                 }
-                else if((theDay >= 1 && theDay <= 30) && (theMonth == 4 
+                else if(((theDay >= 1) && (theDay <= 30)) && (theMonth == 4 
                         || theMonth == 6|| theMonth == 9|| theMonth == 11))
                 {
                     theFlag = true;
                 }
-                else if((theDay >= 1 && theDay <= 28) && theMonth ==2)
+                else if(((theDay >= 1) && (theDay <= 28)) && theMonth ==2)
                 {
                     theFlag = true;
                 }
@@ -169,7 +169,7 @@ public class DOB {
     
     /**
      * This method checks if the DOB object has empty fields.
-     * @return
+     * @return theFlag a boolean
      */
     public boolean isEmpty()
     {

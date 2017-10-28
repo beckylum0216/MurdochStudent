@@ -10,13 +10,14 @@ import java.util.regex.Pattern;
 
 /**
 * This class validates the firstname field. It checks if the field is 
-* populated
+* populated.
 * @throws BadDetailsException 
 */
 public class ValidationCheckEmptyFirstName implements ValidStudent{
     
     /**
-     *
+     * This method checks if the first name field has is an empty field and 
+     * returns a boolean to flag this error.
      * @param inputStudent
      * @return
      * @throws BadDetailsException

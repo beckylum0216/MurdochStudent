@@ -519,6 +519,128 @@ Begin
         end function
     end class
 
+    class SignUpStudent
+        declare private boolean zFlag0
+        declare private boolean zFlag1
+        declare private Student newStudent
+        declare private ValidStudent[] testStudent
+
+        public procedure new()
+            newStudent = new Student()
+            testStudent = initStudentTests()
+        end procedure
+
+        public function Student addStudentDetails(String zField)
+            do
+                try
+                    this.zFlag0 = true
+                    this.zFlag1 = true
+
+                    if(zField == "Title")
+                        thie.addStudenTitle()
+                        this.zFlag0 =  this.testStudent[0].isValid(newStudent)
+                        this.zFlag1 = this.testStudent[1].isValid(newStudent)
+                    else
+                        if(zField == "FirstName")
+                            this.addStudentFirstName();
+                            this.zFlag0 = this.testStudent[2].isValid(newStudent)
+                            this.zFlag1 = this.testStudent[3].isValid(newStudent)
+                        else
+                            if(zField == "LastName")
+                                this.addStudentLastName()
+                                this.zFlag0 = this.testStudent[4].isValid(newStudent)
+                                this.zFlag1 = this.testStudent[5].isValid(newStudent)                     
+                            else
+                                if(zField == "StudentNumber")
+                                    this.addStudentNumber()
+                                    this.zFlag0 = this.testStudent[6].isValid(newStudent)
+                                    this.zFlag1 = this.testStudent[7].isValid(newStudent)                     
+                                else
+                                    if(zField == "DOB")
+                                        this.addStudentDOB()
+                                        this.zFlag0 = this.testStudent[8].isValid(newStudent)
+                                        this.zFlag1 = this.testStudent[9].isValid(newStudent)
+                                    else
+                                        if(zField == "Marks")
+                                            this.addStudentMarks()
+                                            this.zFlag0 = this.testStudent[10].isValid(newStudent)
+                                            this.zFlag1 = this.testStudent[11].isValid(newStudent)
+                                        else
+                                            if(zField  == "Duplicates")
+                                                this.zFlag0 = this.testStudent[12].isValid(newStudent)
+                                                this.zFlag1 = false  
+                                                if(!this.zFlag0)
+                                                    this.newStudent.setOverallMark(newStudent.weightedAverage())
+                                                    this.newStudent.setTheGrade(newStudent.printFinalMark(newStudent.weightedAverage()))
+                                                end if
+                                            end if
+                                        end if
+                                    end if
+                                end if
+                            end if
+                        end if
+                    end if
+                catch(BadDetailsException e)
+                    print e
+                catch(Exception e)
+                    print e
+                end try
+            while(zFlag0 || zFlag1)
+
+            return newStudent
+        end function
+
+        public function void addStudentTitle()
+            print "Please enter title"
+            read this.newStudent.setTitle()
+        end function
+
+        public function void addStudentFirstName()
+            print ("Please enter firstName")
+            read this.newStudent.setFirstName()
+        end function
+
+        public function void addStudentLastName()
+            print "Please enter surname"
+            read this.newStudent.setLastName()
+        end function
+
+        public function void addStudentNumber()
+            print "Please enter the student number"
+            read this.newStudent.setStudentID()
+        end function
+
+        public function  void addStudentDOB()
+            declare integer zDay
+            declare integer zMonth
+            declare integer zYear
+
+            print "Please enter the date of birth"
+            print "Please enter the day"
+            read zDay
+            print "Please enter the month"
+            read zMonth
+            print "Please enter the year"
+            read zYear
+            DOB tempDate = new DOB(zDay, zMonth, zYear)
+            this.newStudent.setStudentDOB(tempDate)
+        end function
+
+        public function void addStudentMarks()
+            print "Please enter the mark for assignment 1"
+            read this.newStudent.setAssignmentOne()
+            print "Please enter the mark for assignment 2"
+            read this.newStudent.setAssignmentTwo()
+            print "Please enter the mark for the practical [out of 10]"
+            read this.newStudent.setPracWork()
+            print "Please enter the mark for the exam"
+            read this.newStudent.setExamMark()
+            read()
+        end function
+
+    end class
+
+
     class Assignment2Q1_Student
 
         declare static final int THE_NUMBER = 1024;
@@ -779,15 +901,24 @@ Begin
         end function
 
         public function static void printDistribution()
-            print "The number of HD: ", filterHD()
+            print "The number of HD: ", filterMark(80)
             print "\n"
-            print "The number of D", filterD()
+            print "The number of D", filterMark(70)
             print "\n"
-            print "The number of C", filterC()
+            print "The number of C", filterMark(60)
             print "\n"
             print "The number of P", filterP()
             print "\n"
             print "The number of N", filterN()
+        end function
+
+        public function static integer filterMark(integer theThreshold)
+            declare integer counter = 0
+            for i to theIndex+1
+                if(theStudent[i].weightedAverage() > theThreshold)
+                    counter =  counter + 1
+                end if
+            end for
         end function
 
         public function static integer filterHD

@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ValidationCheckMarkRange implements ValidStudent{
     
     /**
-     *
+     * This method check if the input is a number that is within the prescibed 
+     * ranges.
      * @param inputStudent
      * @return
      * @throws BadDetailsException

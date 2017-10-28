@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ValidationCheckFirstName implements ValidStudent{
     
     /**
-     *
+     * This method validates the first name field against a regex string for 
+     * any inputs that is not accpeted by the regex rule.
      * @param inputStudent
      * @return
      * @throws BadDetailsException

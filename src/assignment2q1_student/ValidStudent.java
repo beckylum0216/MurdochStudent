@@ -17,7 +17,8 @@ package assignment2q1_student;
 public interface ValidStudent {
     
     /**
-     *
+     * This is the abstract method that is implemented by the subclasses to 
+     * this interface.
      * @param studentData
      * @return
      * @throws BadDetailsException

@@ -38,7 +38,6 @@ public class Assignment2Q1_Student {
     
     static final int THE_NUMBER = 1024;
     static int theIndex = -1;
-    // Unavoidable cannot instantiate class in validation class
     public static Student[] theStudent = new Student[THE_NUMBER];
     static Scanner theKB = new Scanner(System.in);
         
@@ -161,11 +160,12 @@ public class Assignment2Q1_Student {
         String theRecord = "";
         String csvSplit = ",";
         boolean theFlag = true;
-        //Kludgy because it is not encapsulated in a class
-        ValidStudent[] testStudent = initStudentTests();
+        ValidStudent[] testStudent;
+        int counter = 1;
         
         do
         {
+            
             Student newStudent;
             try (BufferedReader theBR = Files.newBufferedReader(csvFile, 
                     StandardCharsets.UTF_8))
@@ -173,6 +173,8 @@ public class Assignment2Q1_Student {
                 theBR.readLine();
                 while ((theRecord = theBR.readLine()) != null)
                 {
+                    testStudent = initStudentTests();
+                    System.out.println("Record: "+counter);
                     try
                     {
                         String[] theAttribute = theRecord.split(csvSplit);
@@ -181,7 +183,7 @@ public class Assignment2Q1_Student {
                         for(int i = 0; i < testStudent.length; i++)
                         {
                             theCheck  = testStudent[i].isValid(newStudent);
-
+                            //System.out.println("Check: "+i+"-"+theCheck);
                             if(theCheck)
                             {
                                 break;
@@ -212,9 +214,10 @@ public class Assignment2Q1_Student {
                         System.out.println(e);
                         System.out.println("===Mark===");
                     }
-                    
+                    counter = counter + 1;
                 }
                 theFlag = false;
+               
             }
             
             catch(FileNotFoundException e)
@@ -225,6 +228,7 @@ public class Assignment2Q1_Student {
             {
                 System.out.println(e);
             } 
+            
         }while(theFlag);
         
     }
@@ -240,8 +244,8 @@ public class Assignment2Q1_Student {
         testStudent[5] = new ValidationCheckLastName();
         testStudent[6] = new ValidationCheckEmptyID();
         testStudent[7] = new ValidationCheckNumLength();
-        testStudent[8] = new ValidationCheckEmptyDOB();
-        testStudent[9] = new ValidationCheckDateOfBirth();
+        testStudent[8] = new ValidationCheckDateOfBirth();
+        testStudent[9] = new ValidationCheckEmptyDOB();
         testStudent[10] = new ValidationCheckMarkRange();
         testStudent[11] = new ValidationCheckNumericID();
         testStudent[12] = new ValidationCheckDuplicateStudent();
@@ -254,7 +258,7 @@ public class Assignment2Q1_Student {
      */
     private static Student createStudentObj(String[] inputArr)
     {
-        String zTitle = inputArr[0];
+        String zTitle = inputArr[0].toLowerCase();
         String zFirstName = inputArr[1];
         String zLastName = inputArr[2];
         int zDay = Integer.parseInt(inputArr[3]);
@@ -542,7 +546,7 @@ public class Assignment2Q1_Student {
      * is empty.
      * @return a boolean when the array is empty.
      */
-    public boolean isEmpty() 
+    public static boolean isEmpty() 
     {
         return (theIndex == -1);
     }
@@ -550,7 +554,7 @@ public class Assignment2Q1_Student {
      * This method tests if the array is full and returns the result
      * @return a true boolean value if the array is full
      */
-    public boolean isFull() 
+    public static boolean isFull() 
     {
         return (theIndex == theStudent.length - 1);
     }
@@ -681,16 +685,30 @@ public class Assignment2Q1_Student {
      */
     public static void printDistribution()
     {
-        System.out.println("The number HD: "+ filterHD());
+        System.out.println("The number HD: "+ filterMark(80));
         System.out.println();
-        System.out.println("The number H: "+ filterD());
+        System.out.println("The number H: "+ filterMark(70));
         System.out.println();
-        System.out.println("The number C: "+ filterC());
+        System.out.println("The number C: "+ filterMark(60));
         System.out.println();
         System.out.println("The number P: "+ filterP());
         System.out.println();
         System.out.println("The number N: "+ filterN());
     }
+    
+    public static int filterMark(int theThreshold)
+    {
+        int counter = 0;
+        for(int i = 0; i < theIndex+1; i++)
+        {
+            if(theStudent[i].weightedAverage() > theThreshold)
+            {
+                counter = counter + 1;
+            }
+        }
+        return counter;
+    }
+            
     
     /**
      * This method calculates the number of HD achieved within the cohort.

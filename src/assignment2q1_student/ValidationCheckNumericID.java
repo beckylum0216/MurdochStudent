@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 public class ValidationCheckNumericID implements ValidStudent{
     
     /**
-     *
+     * This method validates is the student number entered is a number and it 
+     * throws an exception if not a number.
      * @param inputStudent
      * @return
      * @throws BadDetailsException
